@@ -1,2 +1,61 @@
-# jsyncc
-coming soon...
+# JSynCC
+
+This is the software to create the Jena Synthetic Clinical Corpus.
+
+## Installation and Reproduction of Results
+
+* Subscribe the following text books (pdf) and load them into the given directories:
+	
+    * Siekmann, H., Irlenbusch, L., and Klima, S. (2016). Operationsberichte Orthopädie und Unfallchirurgie. Springer-Verlag.
+	--> src/main/resources/books/01-Operationsberichte-Orthopaedie-und-Unfallchirurgie/
+
+    * Siekmann, H. and Klima, S. (2013). Operationsberichte Orthopädie: mit speziellen unfallchirurgisch-orthopädischen Eingriffen. Springer-Verlag.
+	--> src/main/resources/books/02-Operationsberichte-Orthopaedie/
+
+    * Siekmann, H. and Irlenbusch, L. (2012). Operationsberichte Unfallchirurgie. Springer-Verlag.
+	--> src/main/resources/books/03-Operationsberichte-Unfallchirurgie/
+
+    * Hagen, Monika. (2005). Operationsberichte für Einsteiger-Chirurgie: Operation vorbereiten—Bericht diktieren. Georg Thieme Verlag.
+	--> src/main/resources/books/04-Operationsberichte-fuer-Einsteiger/
+
+    * Wenzel, V. (2015). Fallbeispiele Notfallmedizin: Einprägsam-spannend-mit Lerneffekt. Springer.
+	--> src/main/resources/books/05-Fallbeispiele-Notfallmedizin/
+
+    * Eisoldt, S. (2017). Fallbuch Chirurgie: 140 Fälle aktiv bearbeiten. Georg Thieme Verlag, 5. unveränderte edition.
+	--> src/main/resources/books/06-Fallbuch-Chirurgie
+
+    * Hübler, M. and Koch, T. (2014). Komplikationen in der Anästhesie. Springer, 3., überarb. u. erw. aufl. edition.
+	--> src/main/resources/books/07-Komplikationen-in-der-Anaesthesie/
+
+    * Machado, C. (2013). Patienten aus fremden Kulturen im Notarzt- und Rettungsdienst: Fallbeispiele und Praxistipps. Springer-Verlag.
+	--> src/main/resources/books/08-Patienten-aus-fremden-Kulturen-im-Notarzt-und-Rettungsdienst-Fallbeispiele-und-Praxistipps/978-3-642-34869-3.pdf
+
+    * Michael A. Thiel (2013). Fallbeispiele Augenheilkunde. Springer-Verlag.
+	--> src/main/resources/books/09-Fallbeispiele-Augenheilkunde/
+
+    * Hellmich, B. (2017). Fallbuch Innere Medizin. Georg Thieme Verlag, 5., vollständig überarbeitete Auflage.
+	--> src/main/resources/books/10-Fallbuch-Innere-Medizin
+
+* This code works under Linux. The command-line tools "pdftotext" and "pdftohtml" are required.
+* Usage: Start BookReader.java and look into the directory /output.
+
+## About JSynCC
+
+* For more information look into the proceedings of LREC 2018:
+
+	Christina Lohr ,Sven Buechel and Udo Hahn: "Sharing Copies of Synthetic Clinical Corpora without Physical Distribution — A Case Study to Get Around IPRs and Privacy Constraints Featuring the German JSYNCC Corpus"
+	http://www.lrec-conf.org/proceedings/lrec2018/summaries/701.html
+
+
+If you publish with this corpus, please cite:
+
+@InProceedings{LOHR18.701,
+  author = {Christina Lohr ,Sven Buechel and Udo Hahn},
+  title = {Sharing Copies of Synthetic Clinical Corpora without Physical Distribution — A Case Study to Get Around IPRs and Privacy Constraints Featuring the German JSYNCC Corpus},
+  booktitle = {Proceedings of the Eleventh International Conference on Language Resources and Evaluation (LREC 2018)},
+  year = {2018},
+  month = {may},
+  date = {7-12},
+  publisher = {European Language Resources Association (ELRA)},
+  isbn = {979-10-95546-00-9},
+  }

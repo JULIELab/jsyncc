@@ -1,0 +1,14 @@
+/target/
+
+*.pdf
+*.txt
+*.png
+*.html
+
+*.settings/
+*.git/
+.project
+.classpath
+
+jsyncc-corpus.xml
+jsyncc-annotations.xml
