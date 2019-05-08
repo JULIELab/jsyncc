@@ -5,11 +5,16 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.stream.Stream;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
+
+import com.ctc.wstx.io.CompletelyCloseable;
 
 import de.julielab.jsyncc.tools.LanguageTools;
 
@@ -37,6 +42,13 @@ public class BookReaderGeneral {
 		File file9 = new File(BOOK_4 + "/" + "b-0034-39769.pdf");
 		File file10 = new File(BOOK_4 + "/" + "b-0034-39770.pdf");
 		File file11 = new File(BOOK_4 + "/" + "b-0034-39771.pdf");
+		
+		for (File f : Arrays.asList(file1, file2, file3, file4, file5, file6, file7, file8, file9, file10, file11)) {
+			if (!f.exists()) {
+				System.err.println(f.getPath() + " does not exist, skipping documents");
+				return ListOfDocuments;
+			}
+		}
 
 		PDFMergerUtility PDFmerger = new PDFMergerUtility();
 		PDFmerger.setDestinationFileName(BOOK_4 + "/" + "merged.pdf");

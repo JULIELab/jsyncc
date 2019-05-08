@@ -31,6 +31,10 @@ public class BookReaderCasesSurgery {
 	public static HashMap<Integer, String> tableOfAnswers = new HashMap<Integer, String>();
 
 	public static ArrayList<TextDocument> extractContent() throws IOException, InterruptedException {
+		if (!new File(tableOfContentsFile).exists()) {
+			System.err.println(tableOfContentsFile + " does not exist");
+			return listDocuments;
+		}
 		readTableOfContents(tableOfContentsFile);
 		readTableOfTopics(tableOfContentsFile);
 		readTableOfAnswers(tableOfContentsFile);

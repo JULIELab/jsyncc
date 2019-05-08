@@ -5,10 +5,11 @@ import java.util.ArrayList;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
+import de.julielab.jsyncc.tools.FileTools;
 import de.julielab.jsyncc.tools.LanguageTools;
 
 public class BookReaderCasesAnesthetics {
-	public static String BOOK_7 = "src/main/resources/books/07-Komplikationen-in-der-Anaesthesie/978-3-662-43440-6.pdf";
+	public static String BOOK_7 = FileTools.getSinglePDFFileName("src/main/resources/books/07-Komplikationen-in-der-Anaesthesie");
 	public static String source = "Hübler, M. and Koch, T. (2014). Komplikationen in der Anästhesie. Springer, 3., überarb. u. erw. aufl. edition.";
 	public static String sourceShort = "Huebler2014ComplicationAnesthetics";
 
@@ -21,6 +22,9 @@ public class BookReaderCasesAnesthetics {
 	public static ArrayList<String> tableOfAuthors = new ArrayList<String>();
 
 	public static ArrayList<TextDocument> extractContent() throws IOException, InterruptedException {
+		if (BOOK_7 == null) {
+			return ListOfDocuments;
+		}
 		String content = LanguageTools.getContentByTika(BOOK_7);
 
 		String[] lines = content.split("\n");

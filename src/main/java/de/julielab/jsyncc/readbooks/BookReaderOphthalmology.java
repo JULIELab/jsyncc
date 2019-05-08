@@ -7,10 +7,11 @@ import java.util.ArrayList;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
+import de.julielab.jsyncc.tools.FileTools;
 import de.julielab.jsyncc.tools.LanguageTools;
 
 public class BookReaderOphthalmology {
-	public static String BOOK_09 = "src/main/resources/books/09-Fallbeispiele-Augenheilkunde/978-3-642-42219-5.pdf";
+	public static String BOOK_09 = FileTools.getSinglePDFFileName("src/main/resources/books/09-Fallbeispiele-Augenheilkunde");
 	public static String source = "Michael A. Thiel (2013). Fallbeispiele Augenheilkunde. Springer-Verlag.";
 	public static String sourceShort = "Thiel2013Ophthalmology";
 
@@ -26,6 +27,9 @@ public class BookReaderOphthalmology {
 	}
 
 	public static ArrayList<TextDocument> extractContent() throws IOException {
+		if (BOOK_09 == null) {
+			return ListOfDocuments;
+		}
 		boolean readTableOfContents = false;
 		boolean readSituationDescription = false;
 

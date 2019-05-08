@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
+import de.julielab.jsyncc.tools.FileTools;
 import de.julielab.jsyncc.tools.LanguageTools;
 
 public class BookReaderReportsOrthopedicsAndAccidentSurgery {
@@ -17,9 +18,9 @@ public class BookReaderReportsOrthopedicsAndAccidentSurgery {
 
 	private static ArrayList<String> ListOfPatIds = new ArrayList<String>();
 
-	public static String BOOK_1 = "src/main/resources/books/01-Operationsberichte-Orthopaedie-und-Unfallchirurgie/978-3-662-48881-2.pdf";
-	public static String BOOK_2 = "src/main/resources/books/02-Operationsberichte-Orthopaedie/978-3-642-20790-7.pdf";
-	public static String BOOK_3 = "src/main/resources/books/03-Operationsberichte-Unfallchirurgie/978-3-642-20784-6.pdf";
+	public static String BOOK_1 = FileTools.getSinglePDFFileName("src/main/resources/books/01-Operationsberichte-Orthopaedie-und-Unfallchirurgie");
+	public static String BOOK_2 = FileTools.getSinglePDFFileName("src/main/resources/books/02-Operationsberichte-Orthopaedie");
+	public static String BOOK_3 = FileTools.getSinglePDFFileName("src/main/resources/books/03-Operationsberichte-Unfallchirurgie");
 
 	public static String source_1 = "Siekmann, H., Irlenbusch, L., and Klima, S. (2016). Operationsberichte Orthopädie und Unfallchirurgie. Springer-Verlag.";
 	public static String source_2 = "Siekmann, H. and Klima, S. (2013). Operationsberichte Orthopädie: mit speziellen unfallchirurgisch-orthopädischen Eingriffen. Springer-Verlag.";
@@ -32,18 +33,26 @@ public class BookReaderReportsOrthopedicsAndAccidentSurgery {
 	public static int indexLocal = 1;
 	
 	public static ArrayList<TextDocument> extractContent() throws IOException, InterruptedException {
-		ProcessBuilder pb = new ProcessBuilder("pdftotext", BOOK_1);
-		Process p = pb.start();
-		p.waitFor();
-
-		String contentFile1 = BOOK_1.replaceAll("pdf", "txt");
-		String content_2 = LanguageTools.getContentByTika(BOOK_2);
-		String content_3 = LanguageTools.getContentByTika(BOOK_3);
-
-		extractContentBook_1(contentFile1, source_1, sourceShort_1);
-		extractContentBook_23(content_2, source_2, "Orthopädie", sourceShort_2);
-		extractContentBook_23(content_3, source_3, "Unfallchirurgie", sourceShort_3);
-
+		if (BOOK_1 != null) {
+			ProcessBuilder pb = new ProcessBuilder("pdftotext", BOOK_1);
+			Process p = pb.start();
+			p.waitFor();
+	
+			String contentFile1 = BOOK_1.replaceAll("pdf", "txt");
+			
+			extractContentBook_1(contentFile1, source_1, sourceShort_1);
+		}
+		
+		if (BOOK_2 != null) {
+			String content_2 = LanguageTools.getContentByTika(BOOK_2);
+			extractContentBook_23(content_2, source_2, "Orthopädie", sourceShort_2);
+		}		
+		
+		if (BOOK_3 != null) {
+			String content_3 = LanguageTools.getContentByTika(BOOK_3);
+			extractContentBook_23(content_3, source_3, "Unfallchirurgie", sourceShort_3);
+		}
+		
 		return ListOfDocuments;
 	}
 

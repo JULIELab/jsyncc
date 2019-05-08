@@ -7,10 +7,11 @@ import java.util.ArrayList;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
+import de.julielab.jsyncc.tools.FileTools;
 import de.julielab.jsyncc.tools.LanguageTools;
 
 public class BookReaderCulture {
-	public static String BOOK_08 = "src/main/resources/books/08-Patienten-aus-fremden-Kulturen-im-Notarzt-und-Rettungsdienst-Fallbeispiele-und-Praxistipps/978-3-642-34869-3.pdf";
+	public static String BOOK_08 = FileTools.getSinglePDFFileName("src/main/resources/books/08-Patienten-aus-fremden-Kulturen-im-Notarzt-und-Rettungsdienst-Fallbeispiele-und-Praxistipps");
 	public static String source = "Machado, C. (2013). Patienten aus fremden Kulturen im Notarzt- und Rettungsdienst: Fallbeispiele und Praxistipps. Springer-Verlag.";
 	public static String sourceShort = "Machado2013Culture";
 
@@ -21,7 +22,10 @@ public class BookReaderCulture {
 	public static ArrayList<String> listOfDashs = new ArrayList<>();
 
 	public static ArrayList<TextDocument> extractContent() throws IOException {
-
+		if (BOOK_08 == null) {
+			return ListOfDocuments;
+		}
+		
 		boolean readTableOfContents = false;
 		boolean readSituationDescription = false;
 		int indexOfTableOfContents = 0;
