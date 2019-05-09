@@ -1,5 +1,6 @@
 package de.julielab.jsyncc.readbooks;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -32,7 +33,12 @@ public class BookReaderCasesInternalMedicine {
 	public static String docContent = "b-0037-142744.pdf";
 
 	public static void readTableOfContents() {
-		String element = LanguageTools.getContentByTika(BOOK_10 + "/" + docContent);
+		String contentFile = BOOK_10 + "/" + docContent;
+		if (!new File(contentFile).exists()) {
+			System.err.println(contentFile + " does not exist.");
+			return;
+		}
+		String element = LanguageTools.getContentByTika(contentFile);
 		String[] lines = element.split("\\n");
 
 		boolean diag = false;

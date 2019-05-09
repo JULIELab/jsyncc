@@ -8,10 +8,11 @@ import java.util.List;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
+import de.julielab.jsyncc.tools.FileTools;
 import de.julielab.jsyncc.tools.LanguageTools;
 
 public class BookReaderReportsEmergency {
-	public static String BOOK_5 = "src/main/resources/books/05-Fallbeispiele-Notfallmedizin/978-3-662-47232-3.pdf";
+	public static String BOOK_5 = FileTools.getSinglePDFFileName("src/main/resources/books/05-Fallbeispiele-Notfallmedizin");
 	public static String source = "Wenzel, V. (2015). Fallbeispiele Notfallmedizin: Einprägsam-spannend-mit Lerneffekt. Springer.";
 	public static String sourceShort = "Wenzel2015Emergency";
 
@@ -26,6 +27,9 @@ public class BookReaderReportsEmergency {
 	private static int elementIndex = 0;
 
 	public static ArrayList<TextDocument> extractContent() throws IOException, InterruptedException {
+		if (BOOK_5 == null) {
+			return listDocuments;
+		}
 		ProcessBuilder pb = new ProcessBuilder("pdftotext", BOOK_5);
 		Process p = pb.start();
 		p.waitFor();

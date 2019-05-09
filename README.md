@@ -37,7 +37,7 @@ This is the software to create the Jena Synthetic Clinical Corpus.
 	--> src/main/resources/books/10-Fallbuch-Innere-Medizin
 
 * This code works under Linux. The command-line tools "pdftotext" and "pdftohtml" are required.
-* Usage: Start BookReader.java and look into the directory /output.
+* Usage: Start BookReader.java and look into the directory /output (`mvn exec:java -Dexec.mainClass="de.julielab.jsyncc.readbooks.BookReader"` from the command line).
 
 ## About JSynCC
 

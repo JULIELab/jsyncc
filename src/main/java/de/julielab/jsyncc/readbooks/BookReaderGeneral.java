@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.stream.Stream;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -26,32 +28,33 @@ public class BookReaderGeneral {
 	static int index = 0;
 
 	public static ArrayList<TextDocument> extractContent() throws IOException, InterruptedException {
-		File file1 = new File(BOOK_4 + "/" + "b-0034-39761.pdf");
-		File file2 = new File(BOOK_4 + "/" + "b-0034-39762.pdf");
-		File file3 = new File(BOOK_4 + "/" + "b-0034-39763.pdf");
-		File file4 = new File(BOOK_4 + "/" + "b-0034-39764.pdf");
-		File file5 = new File(BOOK_4 + "/" + "b-0034-39765.pdf");
-		File file6 = new File(BOOK_4 + "/" + "b-0034-39766.pdf");
-		File file7 = new File(BOOK_4 + "/" + "b-0034-39767.pdf");
-		File file8 = new File(BOOK_4 + "/" + "b-0034-39768.pdf");
-		File file9 = new File(BOOK_4 + "/" + "b-0034-39769.pdf");
-		File file10 = new File(BOOK_4 + "/" + "b-0034-39770.pdf");
-		File file11 = new File(BOOK_4 + "/" + "b-0034-39771.pdf");
+		List<File> files = Arrays.asList(
+			new File(BOOK_4 + "/" + "b-0034-39761.pdf"),
+			new File(BOOK_4 + "/" + "b-0034-39762.pdf"),
+			new File(BOOK_4 + "/" + "b-0034-39763.pdf"),
+			new File(BOOK_4 + "/" + "b-0034-39764.pdf"),
+			new File(BOOK_4 + "/" + "b-0034-39765.pdf"),
+			new File(BOOK_4 + "/" + "b-0034-39766.pdf"),
+			new File(BOOK_4 + "/" + "b-0034-39767.pdf"),
+			new File(BOOK_4 + "/" + "b-0034-39768.pdf"),
+			new File(BOOK_4 + "/" + "b-0034-39769.pdf"),
+			new File(BOOK_4 + "/" + "b-0034-39770.pdf"),
+			new File(BOOK_4 + "/" + "b-0034-39771.pdf")
+		);
+		
+		for (File f : files) {
+			if (!f.exists()) {
+				System.err.println(f.getPath() + " does not exist, skipping documents");
+				return ListOfDocuments;
+			}
+		}
 
 		PDFMergerUtility PDFmerger = new PDFMergerUtility();
 		PDFmerger.setDestinationFileName(BOOK_4 + "/" + "merged.pdf");
 
-		PDFmerger.addSource(file1);
-		PDFmerger.addSource(file2);
-		PDFmerger.addSource(file3);
-		PDFmerger.addSource(file4);
-		PDFmerger.addSource(file5);
-		PDFmerger.addSource(file6);
-		PDFmerger.addSource(file7);
-		PDFmerger.addSource(file8);
-		PDFmerger.addSource(file9);
-		PDFmerger.addSource(file10);
-		PDFmerger.addSource(file11);
+		for (File file : files) {
+			PDFmerger.addSource(file);
+		}
 
 		PDFmerger.mergeDocuments();
 
