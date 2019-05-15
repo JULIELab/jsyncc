@@ -12,20 +12,15 @@ import org.apache.uima.jcas.JCas;
 
 import de.julielab.jcore.types.Annotation;
 import de.julielab.jcore.types.POSTag;
-//import de.julielab.jcore.types.POSTag;
 import de.julielab.jcore.types.Sentence;
 import de.julielab.jcore.types.Token;
 import de.julielab.jsyncc.annotation.StandOffPos;
 import de.julielab.jsyncc.annotation.StandOffSentence;
 import de.julielab.jsyncc.annotation.StandOffToken;
 import de.julielab.jsyncc.annotation.TextAnnoation;
-import de.julielab.jsyncc.readbooks.BookReader;
 
 public class PipelineSentencesTokensFraMed {
 	static int index = 1;
-
-//	public static String sentences = "";
-//	public static String tokens = "";
 
 	public static TextAnnoation runPipeline(
 			String inputText,
@@ -42,9 +37,6 @@ public class PipelineSentencesTokensFraMed {
 		sentenceAE.process(jCas);
 		tokenAE.process(jCas);
 		posAE.process(jCas);
-
-//		sentences = "";
-//		tokens = "";
 
 		String sentences = getTokSent(jCas, Sentence.type);
 		String tokens = getTokSent(jCas, Token.type);
@@ -65,22 +57,9 @@ public class PipelineSentencesTokensFraMed {
 		annotation.setPosAnnotation(annoPos);
 		annotation.setLongId(longId);
 		annotation.setId(id);
-		
 		annotation.setSentences(sentences);
 		annotation.setTokens(tokens);
-		
-//		tAnno.setlongId = longId;
-//		index++;
-		
-//		tAnno.sentencesAnnotation = annoSentences;
-//		tAnno.tokenAnnotation = annoTokens;
-//		tAnno.posAnnotation = annoPos;
-//		tAnno.id = Integer.toString(index);
-//		tAnno.longId = longId;
-//		index++;
 
-//		BookReader.annotatedCorpus.add(tAnno);
-		
 		return annotation;
 	}
 
