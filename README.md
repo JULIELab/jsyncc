@@ -40,7 +40,7 @@ This is the software to create the **Jena Synthetic Clinical Corpus**.
 * Usage: Start BookReader.java and look into the directory /output (`mvn exec:java -Dexec.mainClass="de.julielab.jsyncc.readbooks.BookReader"` from the command line).
 
 ## Licence
-* **MIT License**: commercial use, modification, distribution, private use, no liability,  warranty 
+* **MIT License**: commercial use, modification, distribution, private use, no liability, no warranty 
 
 ## About JSynCC
 
