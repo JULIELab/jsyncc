@@ -10,7 +10,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
 
 import de.julielab.jsyncc.tools.LanguageTools;
@@ -39,9 +38,8 @@ public class BookReaderGeneral {
 			new File(BOOK_4 + "/" + "b-0034-39768.pdf"),
 			new File(BOOK_4 + "/" + "b-0034-39769.pdf"),
 			new File(BOOK_4 + "/" + "b-0034-39770.pdf"),
-			new File(BOOK_4 + "/" + "b-0034-39771.pdf")
-		);
-		
+			new File(BOOK_4 + "/" + "b-0034-39771.pdf"));
+
 		for (File f : files) {
 			if (!f.exists()) {
 				System.err.println(f.getPath() + " does not exist, skipping documents");
@@ -169,7 +167,6 @@ public class BookReaderGeneral {
 
 		BookReader.index++;
 		doc.id = Integer.toString(BookReader.index);
-
 		doc.text = text;
 		doc.type = "Operationsbericht";
 
@@ -178,17 +175,10 @@ public class BookReaderGeneral {
 
 		doc.topic = topic;
 		doc.heading = actHeading;
-
 		doc.source = source;
-
 		doc.idLong = sourceShort + "-" + indexLocal;
 		indexLocal++;
 
 		ListOfDocuments.add(doc);
-
-		CheckSum checkSum = new CheckSum();
-		checkSum.checkSumText = DigestUtils.md5Hex(text);
-		checkSum.id = Integer.toString(BookReader.index);
-		BookReader.listCheckSum.add(checkSum);
 	}
 }

@@ -10,8 +10,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.stream.Stream;
 
-import org.apache.commons.codec.digest.DigestUtils;
-
 import de.julielab.jsyncc.tools.LanguageTools;
 
 public class BookReaderCasesSurgery {
@@ -24,7 +22,6 @@ public class BookReaderCasesSurgery {
 	public static String tableOfContentsFile = "src/main/resources/books/06-Fallbuch-Chirurgie/b-0036-141230.pdf";
 
 	public static ArrayList<TextDocument> listDocuments = new ArrayList<TextDocument>();
-	public static ArrayList<CheckSum> listCheckSum = new ArrayList<CheckSum>();
 	public static ArrayList<String> tableOfContents = new ArrayList<String>();
 
 	public static HashMap<Integer, String> tableOfTopics = new HashMap<Integer, String>();
@@ -250,10 +247,5 @@ public class BookReaderCasesSurgery {
 		indexLocal++;
 
 		listDocuments.add(document);
-
-		CheckSum checkSum = new CheckSum();
-		checkSum.checkSumText = DigestUtils.md5Hex(actText);
-		checkSum.id = Integer.toString(BookReader.index);
-		BookReader.listCheckSum.add(checkSum);
 	}
 }

@@ -1,4 +1,4 @@
-package de.julielab.jsyncc.readbooks;
+package de.julielab.jsyncc.checksum;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class CheckSum {
 
 	public String id = "";
+	public String idLong = "";
 	public String checkSumText = "";
 
 	public String getId() {
@@ -17,6 +18,14 @@ public class CheckSum {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getIdLong() {
+		return idLong;
+	}
+
+	public void setIdLong(String idLong) {
+		this.idLong = idLong;
 	}
 
 	public String getCheckSumText() {

@@ -3,8 +3,6 @@ package de.julielab.jsyncc.readbooks;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.apache.commons.codec.digest.DigestUtils;
-
 import de.julielab.jsyncc.tools.FileTools;
 import de.julielab.jsyncc.tools.LanguageTools;
 
@@ -16,7 +14,6 @@ public class BookReaderCasesAnesthetics {
 	public static int indexLocal = 1;
 
 	public static ArrayList<TextDocument> ListOfDocuments = new ArrayList<TextDocument>();
-
 	public static ArrayList<String> tableOfContents = new ArrayList<String>();
 	public static ArrayList<ArrayList<String>> tableOfTopics = new ArrayList<ArrayList<String>>();
 	public static ArrayList<String> tableOfAuthors = new ArrayList<String>();
@@ -196,11 +193,6 @@ public class BookReaderCasesAnesthetics {
 
 		ListOfDocuments.add(document);
 		// indexOfTableOfContents++;
-
-		CheckSum checkSum = new CheckSum();
-		checkSum.checkSumText = DigestUtils.md5Hex(text);
-		checkSum.id = Integer.toString(BookReader.index);
-		BookReader.listCheckSum.add(checkSum);
 
 		return text;
 	}

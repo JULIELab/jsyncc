@@ -6,8 +6,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.codec.digest.DigestUtils;
-
 import de.julielab.jsyncc.tools.FileTools;
 import de.julielab.jsyncc.tools.LanguageTools;
 
@@ -19,7 +17,6 @@ public class BookReaderReportsEmergency {
 	public static int indexLocal = 1;
 
 	public static ArrayList<TextDocument> listDocuments = new ArrayList<TextDocument>();
-	public static ArrayList<CheckSum> listCheckSum = new ArrayList<CheckSum>();
 
 	public static ArrayList<String> tableOfContents = new ArrayList<String>();
 	public static ArrayList<String> tableOfAuthors = new ArrayList<String>();
@@ -256,23 +253,12 @@ public class BookReaderReportsEmergency {
 		ArrayList<String> cRelList = new ArrayList<String>();
 		cRelList.add(Integer.toString((BookReader.index) + 1));
 		documentCase.inRelationOf = cRelList;
-
 		documentCase.id = Integer.toString(BookReader.index);
 
 		listDocuments.add(documentCase);
 
-		CheckSum checkSumC = new CheckSum();
-		// checkSumC.checkSumText =
-		// DigestUtils.md5Hex(LanguageTools.removeHyphen(lines[1])); // wrong
-		// --> 0
-		checkSumC.checkSumText = DigestUtils.md5Hex(caseText);
-
-		checkSumC.id = Integer.toString(BookReader.index);
-		BookReader.listCheckSum.add(checkSumC);
-
 		TextDocument documentDiscuss = new TextDocument();
 		documentDiscuss.text = discText;
-
 		documentDiscuss.type = "discussion";
 		documentDiscuss.topic.add("Notfallmedizin");
 		documentDiscuss.heading = tableOfContents.get(elementIndex);
@@ -287,16 +273,9 @@ public class BookReaderReportsEmergency {
 		ArrayList<String> dRelList = new ArrayList<String>();
 		dRelList.add(Integer.toString((BookReader.index) - 1));
 		documentDiscuss.inRelationOf = dRelList;
-
 		documentDiscuss.id = Integer.toString(BookReader.index);
 
 		listDocuments.add(documentDiscuss);
-
-		CheckSum checkSumD = new CheckSum();
-		checkSumD.checkSumText = DigestUtils.md5Hex(discText);
-
-		checkSumD.id = Integer.toString(BookReader.index);
-		BookReader.listCheckSum.add(checkSumD);
 
 		elementIndex = elementIndex + 1;
 

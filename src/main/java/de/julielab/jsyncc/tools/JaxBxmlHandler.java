@@ -13,12 +13,12 @@ import javax.xml.bind.Unmarshaller;
 
 import de.julielab.jsyncc.annotation.AnnotatedCorpus;
 import de.julielab.jsyncc.annotation.TextAnnoation;
-import de.julielab.jsyncc.readbooks.CheckSum;
-import de.julielab.jsyncc.readbooks.CollecedCheckSums;
+import de.julielab.jsyncc.checksum.CheckSum;
+import de.julielab.jsyncc.checksum.CollecedCheckSums;
 import de.julielab.jsyncc.readbooks.CollecedCorpus;
 import de.julielab.jsyncc.readbooks.TextDocument;
 
-public class JAXBXMLHandler
+public class JaxBxmlHandler
 {
 	
 	// export XML - corpus

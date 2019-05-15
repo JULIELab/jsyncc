@@ -20,12 +20,6 @@ public class BookReaderOphthalmology {
 	public static ArrayList<TextDocument> ListOfDocuments = new ArrayList<>(); // Fälle
 	public static ArrayList<String> tableOfContents = new ArrayList<>(); // Inhaltsverzeichnis
 
-	public static void main(String[] args) throws IOException {
-		extractContent();
-
-		System.out.println(ListOfDocuments.size());
-	}
-
 	public static ArrayList<TextDocument> extractContent() throws IOException {
 		if (BOOK_09 == null) {
 			return ListOfDocuments;
@@ -78,11 +72,6 @@ public class BookReaderOphthalmology {
 					ListOfDocuments.add(document);
 					actText = "";
 					indexOfTableOfContents++;
-
-					CheckSum checkSum = new CheckSum();
-					checkSum.checkSumText = DigestUtils.md5Hex(actText);
-					checkSum.id = Integer.toString(BookReader.index);
-					BookReader.listCheckSum.add(checkSum);
 				}
 			}
 
@@ -104,15 +93,13 @@ public class BookReaderOphthalmology {
 				String content = lines[i];
 
 				if (!content.matches("\\d+([%°])*|\\d+\\s\\d+|\\d+\\.\\d|\\+(\\s\\d+)*")
-						&& (!content.startsWith(
-								"M. Thiel, W. Bernauer, M. Zürcher Schüpfer, M. Schmid (Hrsg.), Fallbeispiele Augenheilkunde, "))
+						&& (!content.startsWith("M. Thiel, W. Bernauer, M. Zürcher Schüpfer, M. Schmid (Hrsg.), Fallbeispiele Augenheilkunde, "))
 						&& (!content.startsWith("DOI 10.1007"))
 						&& (!content.matches("M\\. Zürcher Schüpfer, W\\. Dedes"))
 						&& (!content.matches("Kapitel\\s\\d+\\s+\\u2022\\s+[a-zA-Zöäüß0-9]+(\\s+[a-zA-Zöäüß0-9]+)*"))
 						&& (!content.startsWith("Kapitel "))
 						&& (!content.matches("\\d+\\.\\d\\.\\d\\s\\u00b7\\s[a-zA-Zöäüß]+(\\s[a-zA-Zöäüß]+)*\\s*"))
-						&& (!content.matches(
-								"\\s\\.\\sAbb\\.\\s\\d+\\.\\d+\\s[a-zA-Zöäüß0-9().„“»«,:;-]+(\\s+[a-zA-Zöäüß0-9().„“»«,:;-]+)*\\s*"))
+						&& (!content.matches("\\s\\.\\sAbb\\.\\s\\d+\\.\\d+\\s[a-zA-Zöäüß0-9().„“»«,:;-]+(\\s+[a-zA-Zöäüß0-9().„“»«,:;-]+)*\\s*"))
 						&& (!content.startsWith(" . Abb. ")) && (!content.startsWith(" ?Granulomatöse Konjunktivitis"))
 						&& (!content.startsWith("M. Brunner, A.R. von Hochstetter, J.K. Lacoste, W. Bernauer"))
 						&& (!content.startsWith(" Halo’s trotz durchgängiger YAG-Iridotomie"))
@@ -135,7 +122,6 @@ public class BookReaderOphthalmology {
 						&& (!content.equals("der Bindehaut")) && (!content.startsWith("Substantia propria"))
 						&& (!content.equals(""))) {
 
-					// System.out.println("c_" + content);
 					actText = actText + "\n" + content;
 				}
 			}

@@ -5,8 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-import org.apache.commons.codec.digest.DigestUtils;
-
 import de.julielab.jsyncc.tools.FileTools;
 import de.julielab.jsyncc.tools.LanguageTools;
 
@@ -84,11 +82,6 @@ public class BookReaderCulture {
 						ListOfDocuments.add(document);
 						actText = "";
 						indexOfTableOfContents++;
-
-						CheckSum checkSum = new CheckSum();
-						checkSum.checkSumText = DigestUtils.md5Hex(actText);
-						checkSum.id = Integer.toString(BookReader.index);
-						BookReader.listCheckSum.add(checkSum);
 					}
 
 					readSituationDescription = true;
@@ -113,10 +106,8 @@ public class BookReaderCulture {
 				if ((content.matches("\\A+\\d+\u0020Kapitel") == false)
 						&& (content.matches("\\d+\\.1\\sSituationsbeschreibung") == false)
 						&& (content.matches("\\d+\\.\\d+\\s\u00b7\\s[a-zA-Zöäüß]+(\\s[a-zA-Zöäüß]+)*") == false)
-						&& (content.matches(
-								"\\d+\\s[a-zA-Zöäüß]+\\s\\d+\\s+\u00b7\\s+[a-zA-Zöäüß]+(\\s[a-zA-Zöäüß]+)*") == false)
-						&& (content.matches(
-								"\\s\\.\\sAbb\\.\\s\\d+\\.\\d\\s[a-zA-Zöäüß().]+\\.*(\\s+[a-zA-Zöäüß().]+\\.*)*\\s*") == false)
+						&& (content.matches("\\d+\\s[a-zA-Zöäüß]+\\s\\d+\\s+\u00b7\\s+[a-zA-Zöäüß]+(\\s[a-zA-Zöäüß]+)*") == false)
+						&& (content.matches("\\s\\.\\sAbb\\.\\s\\d+\\.\\d\\s[a-zA-Zöäüß().]+\\.*(\\s+[a-zA-Zöäüß().]+\\.*)*\\s*") == false)
 						&& (content.matches("") == false)) {
 					if (content.startsWith(" ")) {
 						content = content.replaceFirst(" ", "");
@@ -143,11 +134,6 @@ public class BookReaderCulture {
 		ListOfDocuments.add(document);
 		actText = "";
 		indexOfTableOfContents++;
-
-		CheckSum checkSum = new CheckSum();
-		checkSum.checkSumText = DigestUtils.md5Hex(actText);
-		checkSum.id = Integer.toString(BookReader.index);
-		BookReader.listCheckSum.add(checkSum);
 
 		return ListOfDocuments;
 	}

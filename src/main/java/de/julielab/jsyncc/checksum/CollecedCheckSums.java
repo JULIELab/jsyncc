@@ -1,10 +1,11 @@
-package de.julielab.jsyncc.readbooks;
+package de.julielab.jsyncc.checksum;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -18,7 +19,7 @@ public class CollecedCheckSums
 	public CollecedCheckSums(){}
 
 	public CollecedCheckSums(List<CheckSum> listCheckSums) {
-		CollecedCheckSums.listCheckSums = listCheckSums;
+		this.listCheckSums = listCheckSums;
 	}
 
 	public List<CheckSum> getListCheckSums() {

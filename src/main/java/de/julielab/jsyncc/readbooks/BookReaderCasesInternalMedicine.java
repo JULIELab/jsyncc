@@ -10,8 +10,6 @@ import java.util.Iterator;
 import java.util.TreeMap;
 import java.util.stream.Stream;
 
-import org.apache.commons.codec.digest.DigestUtils;
-
 import de.julielab.jsyncc.tools.LanguageTools;
 
 public class BookReaderCasesInternalMedicine {
@@ -24,7 +22,6 @@ public class BookReaderCasesInternalMedicine {
 	public static ArrayList<String> listCaseFiles = new ArrayList<String>();
 
 	public static ArrayList<TextDocument> listDocuments = new ArrayList<TextDocument>();
-	public static ArrayList<CheckSum> listCheckSum = new ArrayList<CheckSum>();
 
 	public static TreeMap<Integer, String> tableOfDiagnois = new TreeMap<Integer, String>();
 	public static TreeMap<Integer, ArrayList<String>> tableOfThemes = new TreeMap<Integer, ArrayList<String>>();
@@ -194,10 +191,5 @@ public class BookReaderCasesInternalMedicine {
 		indexLocal++;
 
 		listDocuments.add(document);
-
-		CheckSum checkSum = new CheckSum();
-		checkSum.checkSumText = DigestUtils.md5Hex(text);
-		checkSum.id = Integer.toString(BookReader.index);
-		BookReader.listCheckSum.add(checkSum);
 	}
 }

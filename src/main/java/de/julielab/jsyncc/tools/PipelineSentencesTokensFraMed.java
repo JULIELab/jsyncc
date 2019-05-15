@@ -21,19 +21,19 @@ import de.julielab.jsyncc.annotation.StandOffToken;
 import de.julielab.jsyncc.annotation.TextAnnoation;
 import de.julielab.jsyncc.readbooks.BookReader;
 
-public class GetSentencesTokensFraMed {
+public class PipelineSentencesTokensFraMed {
 	static int index = 1;
 
-	public static String sentences = "";
-	public static String tokens = "";
+//	public static String sentences = "";
+//	public static String tokens = "";
 
-	public static void runPipeline(String inputText, String longId) throws IOException, UIMAException {
-		AnalysisEngine sentenceAE = AnalysisEngineFactory
-				.createEngine("de.julielab.jcore.ae.jsbd.desc.jcore-jsbd-ae-medical-german");
-		AnalysisEngine tokenAE = AnalysisEngineFactory
-				.createEngine("de.julielab.jcore.ae.jtbd.desc.jcore-jtbd-ae-medical-german");
-		AnalysisEngine posAE = AnalysisEngineFactory
-				.createEngine("de.julielab.jcore.ae.jpos.desc.jcore-jpos-ae-medical-german");
+	public static TextAnnoation runPipeline(
+			String inputText,
+			String longId,
+			String id) throws IOException, UIMAException {
+		AnalysisEngine sentenceAE = AnalysisEngineFactory.createEngine("de.julielab.jcore.ae.jsbd.desc.jcore-jsbd-ae-medical-german");
+		AnalysisEngine tokenAE = AnalysisEngineFactory.createEngine("de.julielab.jcore.ae.jtbd.desc.jcore-jtbd-ae-medical-german");
+		AnalysisEngine posAE = AnalysisEngineFactory.createEngine("de.julielab.jcore.ae.jpos.desc.jcore-jpos-ae-medical-german");
 
 		JCas jCas = JCasFactory.createJCas("de.julielab.jcore.types.jcore-all-types");
 
@@ -43,11 +43,11 @@ public class GetSentencesTokensFraMed {
 		tokenAE.process(jCas);
 		posAE.process(jCas);
 
-		sentences = "";
-		tokens = "";
+//		sentences = "";
+//		tokens = "";
 
-		sentences = getTokSent(jCas, Sentence.type);
-		tokens = getTokSent(jCas, Token.type);
+		String sentences = getTokSent(jCas, Sentence.type);
+		String tokens = getTokSent(jCas, Token.type);
 
 		ArrayList<StandOffSentence> annoSentences = new ArrayList<StandOffSentence>();
 		annoSentences = getSentAnno(jCas, Sentence.type);
@@ -58,16 +58,30 @@ public class GetSentencesTokensFraMed {
 		ArrayList<StandOffPos> annoPos = new ArrayList<StandOffPos>();
 		annoPos = getPOSAnno(jCas, POSTag.type);
 
-		TextAnnoation tAnno = new TextAnnoation();
+		TextAnnoation annotation = new TextAnnoation();
 
-		tAnno.sentencesAnnotation = annoSentences;
-		tAnno.tokenAnnotation = annoTokens;
-		tAnno.posAnnotation = annoPos;
-		tAnno.id = Integer.toString(index);
-		tAnno.longId = longId;
-		index++;
+		annotation.setSentencesAnnotation(annoSentences);
+		annotation.setTokenAnnotation(annoTokens);
+		annotation.setPosAnnotation(annoPos);
+		annotation.setLongId(longId);
+		annotation.setId(id);
+		
+		annotation.setSentences(sentences);
+		annotation.setTokens(tokens);
+		
+//		tAnno.setlongId = longId;
+//		index++;
+		
+//		tAnno.sentencesAnnotation = annoSentences;
+//		tAnno.tokenAnnotation = annoTokens;
+//		tAnno.posAnnotation = annoPos;
+//		tAnno.id = Integer.toString(index);
+//		tAnno.longId = longId;
+//		index++;
 
-		BookReader.annotatedCorpus.add(tAnno);
+//		BookReader.annotatedCorpus.add(tAnno);
+		
+		return annotation;
 	}
 
 	public static ArrayList<StandOffPos> getPOSAnno(JCas jCas, int type) {

@@ -6,138 +6,81 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.xml.bind.JAXBException;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.tika.exception.TikaException;
 import org.apache.uima.UIMAException;
 
+import de.julielab.jsyncc.checksum.CheckSum;
+import de.julielab.jsyncc.readbooks.TextDocument;
 import de.julielab.jsyncc.annotation.TextAnnoation;
-import de.julielab.jsyncc.tools.GetSentencesTokensFraMed;
-import de.julielab.jsyncc.tools.JAXBXMLHandler;
+import de.julielab.jsyncc.tools.PipelineSentencesTokensFraMed;
+import de.julielab.jsyncc.tools.JaxBxmlHandler;
+import de.julielab.jsyncc.tools.TextDocumentOutputUtils;
 
 public class BookReader {
-	public static ArrayList<TextDocument> ListDocuments = new ArrayList<TextDocument>();
-	public static ArrayList<CheckSum> listCheckSum = new ArrayList<CheckSum>();
+//	public static ArrayList<TextDocument> ListDocuments = new ArrayList<TextDocument>();
+//	public static ArrayList<CheckSum> listCheckSum = new ArrayList<CheckSum>();
 
-	public static ArrayList<TextAnnoation> annotatedCorpus = new ArrayList<TextAnnoation>();
+//	public static ArrayList<TextAnnoation> annotatedCorpus = new ArrayList<TextAnnoation>();
 
 	public static int index = 0;
 	public static String TEXT = "";
 
-	public static Path outDir = Paths.get("output");
-	public static Path outDirXML = Paths.get("output" + "/" + "xml");
-	public static Path outDirTXT = Paths.get("output" + "/" + "txt");
-	public static Path outDirSent = Paths
-			.get("output" + Pattern.quote(System.getProperty("file.separator")) + "annoSenTok");
+	public static final Path OUT = Paths.get("output");
+	public static final Path OUT_XML = Paths.get("output" + "/" + "xml");
+	public static final Path OUT_TXT = Paths.get("output" + "/" + "txt");
+	public static final Path OUT_SENT = Paths.get("output" + Pattern.quote(System.getProperty("file.separator")) + "annoSenTok");
 
 	public static void main(String[] args) throws IOException, TikaException, InterruptedException, UIMAException {
-		if (!(outDir.toFile().exists())) {
-			Files.createDirectory(outDir);
+		
+		List<TextDocument> documents = new ArrayList<TextDocument>();
+		ArrayList<TextAnnoation> annotatedCorpus = new ArrayList<TextAnnoation>();
+		List<CheckSum> checkSums = createCheckSums(documents);
+
+		documents.addAll(BookReaderReportsOrthopedicsAndAccidentSurgery.extractContent());
+		documents.addAll(BookReaderGeneral.extractContent());
+		documents.addAll(BookReaderReportsEmergency.extractContent());
+		documents.addAll(BookReaderCasesSurgery.extractContent());
+		documents.addAll(BookReaderCasesAnesthetics.extractContent());
+		documents.addAll(BookReaderCulture.extractContent());
+		documents.addAll(BookReaderOphthalmology.extractContent());
+		documents.addAll(BookReaderCasesInternalMedicine.extractContent());
+
+//		TextDocumentOutputUtils.writeTxtFilesAndAnnotations(documents, OUT_TXT.toString(), OUT_XML.toString());
+
+		annotatedCorpus = TextDocumentOutputUtils.writeTxtFilesAndAnnotations(documents, OUT_TXT.toString(), OUT_XML.toString());
+
+		System.out.println("# documents of JSynCC: " + documents.size());
+		System.out.println("# documents of annotated corpus items " + annotatedCorpus.size());
+
+		if (!(OUT.toFile().exists())){
+			Files.createDirectory(OUT);
 		}
 
-		if (!(outDirXML.toFile().exists())) {
-			Files.createDirectory(outDirXML);
-		}
-
-		if (!(outDirTXT.toFile().exists())) {
-			Files.createDirectory(outDirTXT);
-		}
-
-		ListDocuments.addAll(BookReaderReportsOrthopedicsAndAccidentSurgery.extractContent());
-		ListDocuments.addAll(BookReaderGeneral.extractContent());
-		ListDocuments.addAll(BookReaderReportsEmergency.extractContent());
-		ListDocuments.addAll(BookReaderCasesSurgery.extractContent());
-		ListDocuments.addAll(BookReaderCasesAnesthetics.extractContent());
-		ListDocuments.addAll(BookReaderCulture.extractContent());
-		ListDocuments.addAll(BookReaderOphthalmology.extractContent());
-		ListDocuments.addAll(BookReaderCasesInternalMedicine.extractContent());
-
-		writeXML();
-		writeCheckSums();
-		writeTxtFilesAndAnnotations();
-
-		System.out.println("# documents of JSynCC: " + ListDocuments.size());
-		System.out.println("# checkSums of JSynCC: " + listCheckSum.size());
-		System.out.println("annotatedCorpus " + annotatedCorpus.size());
+		TextDocumentOutputUtils.writeTxtFiles(OUT_TXT, documents);
+		TextDocumentOutputUtils.writeXML(documents, checkSums, OUT_XML);
+		TextDocumentOutputUtils.writeCheckSums(documents, checkSums);
 	}
 
-	public static void writeXML() throws IOException {
-		String corpus = "jsyncc-corpus.xml";
+	public static List<CheckSum> createCheckSums(List<TextDocument> listDocuments) {
+		List<CheckSum> listCheckSum = new ArrayList<>();
 
-		try {
-			JAXBXMLHandler.marshalCorpus(ListDocuments, new File(outDirXML + "/" + corpus));
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JAXBException e) {
-			e.printStackTrace();
+		for (int i = 0; i < listDocuments.size(); i++) {
+			String text = listDocuments.get(i).getText();
+
+			CheckSum checkSum = new CheckSum();
+			checkSum.setCheckSumText(DigestUtils.md5Hex(text));
+			checkSum.setId(listDocuments.get(i).getId());
+			checkSum.setIdLong(listDocuments.get(i).getIdLong());
+
+			listCheckSum.add(checkSum);
 		}
 
-		System.out.println(outDirXML + "/" + corpus + " created successfully.");
-	}
-
-	public static void writeCheckSums() throws IOException {
-		String checksums = "jsyncc-checksums.xml";
-
-		try {
-			JAXBXMLHandler.marshalCheckSum(listCheckSum, new File(outDirXML + "/" + checksums));
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}
-
-		System.out.println(outDirXML + "/" + checksums + " created successfully.");
-	}
-
-	public static void writeTxtFilesAndAnnotations() throws IOException, UIMAException {
-		String fullText = "";
-		String fullSent = "";
-		String fullTokens = "";
-
-		for (int i = 0; i < ListDocuments.size(); i++) {
-			String text = ListDocuments.get(i).text;
-
-			GetSentencesTokensFraMed.runPipeline(text, ListDocuments.get(i).getIdLong());
-
-			String sent = GetSentencesTokensFraMed.sentences;
-			String token = GetSentencesTokensFraMed.tokens;
-
-			fullText = fullText + text + "\n";
-			fullSent = fullSent + sent + "\n";
-			fullTokens = fullTokens + token + "\n";
-		}
-
-		Files.write(Paths.get(outDirTXT + "/" + "jsynncc-text.txt"), fullText.getBytes());
-		System.out.println(outDirXML + "/" + "jsynncc-text.txt created successfully.");
-
-		Files.write(Paths.get(outDirTXT + "/" + "jsynncc-sentences.txt"), fullSent.getBytes());
-		System.out.println(outDirXML + "/" + "jsynncc-sentences.txt created successfully.");
-
-		Files.write(Paths.get(outDirTXT + "/" + "jsynncc-tokens.txt"), fullTokens.getBytes());
-		System.out.println(outDirXML + "/" + "jsynncc-tokens.txt created successfully.");
-
-		String annoFile = "jsyncc-annotations.xml";
-
-		try {
-			JAXBXMLHandler.marshalAnnotation(annotatedCorpus, new File(outDirXML + "/" + annoFile));
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}
-
-		System.out.println(outDirXML + "/" + annoFile + " created successfully.");
-
-		ProcessBuilder pb = new ProcessBuilder("tar", "cfzv", outDirXML + "/" + "jsyncc-annotations.xml.tar",
-				"jsyncc-annotations.xml");
-
-		Process p = pb.start();
-		try {
-			p.waitFor();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		return listCheckSum;
 	}
 }

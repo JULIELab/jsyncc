@@ -75,10 +75,4 @@ public class TextDocument
 	public void setInRelationOf(ArrayList<String> inRelationOf) {
 		this.inRelationOf = inRelationOf;
 	}
-
-//	@Override
-//	public String toString() {
-//		return "TextEntry [id=" + id + ", text=" + text + ", author=" + author + ", type=" + type + ", heading="
-//				+ heading + ", topic=" + topic + ", source=" + source + "]";
-//	}
 }

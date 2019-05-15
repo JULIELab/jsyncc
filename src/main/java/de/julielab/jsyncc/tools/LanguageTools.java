@@ -17,56 +17,6 @@ import org.xml.sax.SAXException;
 
 public class LanguageTools {
 
-//	public static void main(String[] args) throws IOException, InterruptedException
-//	{
-//		String x = "Periphere arterielle Verschluss- krankheit (pAVK)";
-//		String y = "44-jährige Frau mit Schwere- und Spannungsgefühl der Beine";
-//		String z = "i.v.- Nadel."; // i.o.-Zugang
-//		String v = "Verschluss- krankheit i.o.- Zugang";
-//		String w = "Nadel- Entlasspunktion";
-//		String u = "OP-Pro- gramm";
-//		String u2 = "OP- Programme";
-//		String t = "Uni- Klinik";
-//		String s = "Demodex- Milbe";
-//		
-//		String c = "Charcot-Marie-Tooth- (CMT-) Erkrankung";
-//		String c2 = "Schädel-CT- (mit und ohne KM)";
-//		
-//		String l = "HWS- Beschwerden";
-//		String v2 = "Vertex- Fixateur";
-//		String a = "Ala- u.";
-//		String t2 = "10.00- bis 3- bis";
-//		String p = "a.- p.-Projektion";
-//		String m = "MR- tomografisch";
-//		
-////		System.out.println(x);
-////		System.out.println(y);
-////		System.out.println();
-////		System.out.println(removeHyphen(x));
-////		System.out.println(removeHyphen(y));
-//
-//		System.out.println("_" + removeHyphenNew(x) + "_");
-//		System.out.println("_" + removeHyphenNew(y) + "_");
-//		System.out.println("_" + removeHyphenNew(z) + "_");
-//		System.out.println("_" + removeHyphenNew(v) + "_");
-//		System.out.println("_" + removeHyphenNew(w) + "_");
-//		System.out.println("_" + removeHyphenNew(u) + "_");
-//		System.out.println("_" + removeHyphenNew(u2) + "_");
-//		System.out.println("_" + removeHyphenNew(t) + "_");
-//		
-//		System.out.println("_" + removeHyphenNew(s) + "_");
-//		System.out.println("_" + removeHyphenNew(c) + "_");
-//		System.out.println("_" + removeHyphenNew(c2) + "_");
-//		
-//		System.out.println("_" + removeHyphenNew(l) + "_");
-//		System.out.println("_" + removeHyphenNew(v2) + "_");
-//		System.out.println("_" + removeHyphenNew(a) + "_");
-//		System.out.println("_" + removeHyphenNew(t2) + "_");
-//		System.out.println("_" + removeHyphenNew(p) + "_");
-//		System.out.println("_" + removeHyphenNew(m) + "_");
-//
-//	}
-	
 	public static String getContentByTika(String resource) {
 	
 		String content = "";
