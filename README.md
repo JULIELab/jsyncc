@@ -1,6 +1,6 @@
 # JSynCC
 
-This is the software to create the Jena Synthetic Clinical Corpus.
+This is the software to create the **Jena Synthetic Clinical Corpus**.
 
 ## Installation and Reproduction of Results
 
@@ -39,16 +39,18 @@ This is the software to create the Jena Synthetic Clinical Corpus.
 * This code works under Linux. The command-line tools "pdftotext" and "pdftohtml" are required.
 * Usage: Start BookReader.java and look into the directory /output (`mvn exec:java -Dexec.mainClass="de.julielab.jsyncc.readbooks.BookReader"` from the command line).
 
+## Licence
+* **MIT License**: commercial use, modification, distribution, private use, no liability,  warranty 
+
 ## About JSynCC
 
-* For more information look into the proceedings of LREC 2018:
+* For more information look into the proceedings of [LREC 2018](http://www.lrec-conf.org/proceedings/lrec2018/papers.html):
 
-	Christina Lohr ,Sven Buechel and Udo Hahn: "Sharing Copies of Synthetic Clinical Corpora without Physical Distribution — A Case Study to Get Around IPRs and Privacy Constraints Featuring the German JSYNCC Corpus"
-	http://www.lrec-conf.org/proceedings/lrec2018/summaries/701.html
+	Christina Lohr ,Sven Buechel and Udo Hahn: [Sharing Copies of Synthetic Clinical Corpora without Physical Distribution — A Case Study to Get Around IPRs and Privacy Constraints Featuring the German JSYNCC Corpus](http://www.lrec-conf.org/proceedings/lrec2018/summaries/701.html)
 
 
 If you publish with this corpus, please cite:
-
+```
 @InProceedings{LOHR18.701,
   author = {Christina Lohr ,Sven Buechel and Udo Hahn},
   title = {Sharing Copies of Synthetic Clinical Corpora without Physical Distribution — A Case Study to Get Around IPRs and Privacy Constraints Featuring the German JSYNCC Corpus},
@@ -57,5 +59,6 @@ If you publish with this corpus, please cite:
   month = {may},
   date = {7-12},
   publisher = {European Language Resources Association (ELRA)},
-  isbn = {979-10-95546-00-9},
+  isbn = {979-10-95546-00-9}
   }
+```
