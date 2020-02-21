@@ -1,6 +1,7 @@
 package de.julielab.jsyncc.readbooks;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -14,9 +15,11 @@ public class TextDocument
 	public String idLong = "";
 	
 	public String text = "";
+	public String textSection = "";
+	
 	public String type = "";
 	public String heading = "";
-	public ArrayList<String> topic = new ArrayList<String>();
+	public List<String> topic = new ArrayList<String>();
 	public String source = "";
 	public ArrayList<String> inRelationOf = new ArrayList<String>();
 
@@ -41,6 +44,13 @@ public class TextDocument
 		this.text = text;
 	}
 
+	public String getTextSection() {
+		return textSection;
+	}
+	public void setTextSection(String textSection) {
+		this.textSection = textSection;
+	}
+
 	public String getType() {
 		return type;
 	}
@@ -55,10 +65,10 @@ public class TextDocument
 		this.heading = heading;
 	}
 
-	public ArrayList<String> getTopic() {
+	public List<String> getTopic() {
 		return topic;
 	}
-	public void setTopic(ArrayList<String> topic) {
+	public void setTopic(List<String> topic) {
 		this.topic = topic;
 	}
 
@@ -75,4 +85,10 @@ public class TextDocument
 	public void setInRelationOf(ArrayList<String> inRelationOf) {
 		this.inRelationOf = inRelationOf;
 	}
+
+//	@Override
+//	public String toString() {
+//		return "TextEntry [id=" + id + ", text=" + text + ", author=" + author + ", type=" + type + ", heading="
+//				+ heading + ", topic=" + topic + ", source=" + source + "]";
+//	}
 }

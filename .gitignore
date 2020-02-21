@@ -12,3 +12,8 @@
 
 jsyncc-corpus.xml
 jsyncc-annotations.xml
+/books/
+/output/
+
+output/xml/corpus.xml
+

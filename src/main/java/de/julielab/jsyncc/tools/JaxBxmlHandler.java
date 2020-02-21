@@ -12,19 +12,17 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import de.julielab.jsyncc.annotation.AnnotatedCorpus;
-import de.julielab.jsyncc.annotation.TextAnnoation;
+import de.julielab.jsyncc.annotation.TextAnnotation;
 import de.julielab.jsyncc.checksum.CheckSum;
 import de.julielab.jsyncc.checksum.CollecedCheckSums;
 import de.julielab.jsyncc.readbooks.CollecedCorpus;
 import de.julielab.jsyncc.readbooks.TextDocument;
 
-public class JaxBxmlHandler
-{
-	
+public class JaxBxmlHandler {
+
 	// export XML - corpus
 	public static void marshalCorpus(List<TextDocument> listOfDocuments, File outputFile)
-		throws IOException, JAXBException
-	{
+			throws IOException, JAXBException {
 		JAXBContext context;
 		context = JAXBContext.newInstance(CollecedCorpus.class);
 
@@ -36,11 +34,10 @@ public class JaxBxmlHandler
 		m.marshal(new CollecedCorpus(listOfDocuments), writer);
 		writer.close();
 	}
-	
+
 	// export XML - checksums
 	public static void marshalCheckSum(List<CheckSum> listOfCheckSums, File outputFile)
-		throws IOException, JAXBException
-	{
+			throws IOException, JAXBException {
 		JAXBContext context;
 		context = JAXBContext.newInstance(CollecedCheckSums.class);
 
@@ -52,11 +49,9 @@ public class JaxBxmlHandler
 		m.marshal(new CollecedCheckSums(listOfCheckSums), writer);
 		writer.close();
 	}
-	
+
 	// import XML - corpus
-	public static List<TextDocument> unmarshalCorpus(File importFile)
-		throws JAXBException
-	{
+	public static List<TextDocument> unmarshalCorpus(File importFile) throws JAXBException {
 		CollecedCorpus col = new CollecedCorpus();
 
 		JAXBContext context = JAXBContext.newInstance(CollecedCorpus.class);
@@ -65,12 +60,11 @@ public class JaxBxmlHandler
 
 		return col.getListDocuments();
 	}
-	
+
 	// export XML - annotation
 	// export XML - corpus
-	public static void marshalAnnotation(List<TextAnnoation> listOfAnnotations, File outputFile)
-		throws IOException, JAXBException
-	{
+	public static void marshalAnnotation(List<TextAnnotation> listOfAnnotations, File outputFile)
+			throws IOException, JAXBException {
 		JAXBContext context;
 		context = JAXBContext.newInstance(AnnotatedCorpus.class);
 

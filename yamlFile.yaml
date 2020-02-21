@@ -1,0 +1,37 @@
+---
+# comments entail additional (static) fields
+#comments entail class- or additional information
+bookPaths:
+  BOOK1: books/01-Operationsberichte-Orthopaedie-und-Unfallchirurgie/978-3-662-48881-2.pdf
+  BOOK2: books/02-Operationsberichte-Orthopaedie/978-3-642-20790-7.pdf
+  BOOK3: books/03-Operationsberichte-Unfallchirurgie/978-3-642-20784-6.pdf
+  BOOK4: books/04-Operationsberichte-fuer-Einsteiger
+  BOOK5: books/05-Fallbeispiele-Notfallmedizin/978-3-662-47232-3.pdf
+  BOOK6: books/06-Fallbuch-Chirurgie"
+  BOOK7: books/07-Komplikationen-in-der-Anaesthesie/978-3-662-43440-6.pdf tableOfContents, tableOfAuthors
+  BOOK8: books/08-Patienten-aus-fremden-Kulturen-im-Notarzt-und-Rettungsdienst-Fallbeispiele-und-Praxistipps/978-3-642-34869-3.pdf
+  BOOK9: books/09-Fallbeispiele-Augenheilkunde/978-3-642-42219-5.pdf
+  BOOK10: books/10-Fallbuch-Innere-Medizin
+sources:
+  #Schema':'author. (year). titel. publisher. edition.; DOI.
+  SOURCE1: Siekmann, H., Irlenbusch, L., Klima, S. (2016). Operationsberichte Orthopädie und Unfallchirurgie. Springer-Verlag. 2. Auflage.; DOI':'  10.1007/978-3-662-48881-2.
+  SOURCE2: Siekmann, H., Klima, S. (2013). Operationsberichte Orthopädie':' mit speziellen unfallchirurgisch-orthopädischen Eingriffen. Springer-Verlag. -.; DOI':' 10.1007/978-3-642-20790-7.
+  SOURCE3: Siekmann, H., Irlenbusch, L. (2012). Operationsberichte Unfallchirurgie. Springer-Verlag. -.; DOI':' 10.1007/978-3-642-20784-6. 
+  SOURCE4: Hagen, M. (2005). Operationsberichte für Einsteiger-Chirurgie':' Operation vorbereiten—Bericht diktieren. Georg-Thieme-Verlag. -.; DOI':' 10.1055/b-002-39790. 
+  SOURCE5: Wenzel, V. (2015). Fallbeispiele Notfallmedizin':' Einprägsam-spannend-mit Lerneffekt. Springer-Verlag. -.; DOI':' 10.1007/978-3-662-47232-3.
+  SOURCE6: Eisoldt, S. (2017). Fallbuch Chirurgie':' 140 Fälle aktiv bearbeiten. Georg-Thieme-Verlag. 5., unveränderte Auflage.; DOI':' 10.1055/b-004-140674.
+  SOURCE7: Hübler, M., Koch, T. (2014). Komplikationen in der Anästhesie. Springer-Verlag. 3., überarbeitete Auflage.; DOI':' 10.1007/978-3-662-43440-6.
+  SOURCE8: Machado, C. (2013). Patienten aus fremden Kulturen im Notarzt- und Rettungsdienst':' Fallbeispiele und Praxistipps. Springer-Verlag. -.; DOI':' 10.1007/978-3-642-34869-3. 
+  SOURCE9: Thiel, M.A., Bernauer, W., Schüpfer, M.Z., Schmid, M.K. (2013). Fallbeispiele Augenheilkunde. Springer-Verlag. -.; DOI':'  10.1007/978-3-642-42219-5. 
+  SOURCE10: Hellmich, B. (2017). Fallbuch Innere Medizin. Georg-Thieme-Verlag. 5., vollständig überarbeitete Auflage.; DOI':' 10.1055/b-0037-142744.
+sources-short:
+  SOURCE_SHORT1: Siekmann2016OrthopedicsAccidentSurgery-V2
+  SOURCE_SHORT2: Siekmann2013Orthopedics-V2
+  SOURCE_SHORT3: Siekmann2012AccidentSurgery-V2
+  SOURCE_SHORT4: Hagen2005General-V2
+  SOURCE_SHORT5: Wenzel2015Emergency-V2
+  SOURCE_SHORT6: Eisoldt2017CasesSurgery
+  SOURCE_SHORT7: Huebler2014ComplicationAnesthetics
+  SOURCE_SHORT8: Machado2013Culture-V2
+  SOURCE_SHORT9: Thiel2013Ophthalmology-V2
+  SOURCE_SHORT10: Hellmich2017CasesInternalMedicine-V2

@@ -10,22 +10,24 @@ import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
 
+import de.julielab.jsyncc.annotation.StandOffPos;
+import de.julielab.jsyncc.annotation.StandOffSentence;
+import de.julielab.jsyncc.annotation.StandOffToken;
+import de.julielab.jsyncc.annotation.TextAnnotation;
 import de.julielab.jcore.types.Annotation;
 import de.julielab.jcore.types.POSTag;
 import de.julielab.jcore.types.Sentence;
 import de.julielab.jcore.types.Token;
-import de.julielab.jsyncc.annotation.StandOffPos;
-import de.julielab.jsyncc.annotation.StandOffSentence;
-import de.julielab.jsyncc.annotation.StandOffToken;
-import de.julielab.jsyncc.annotation.TextAnnoation;
 
-public class PipelineSentencesTokensFraMed {
-	static int index = 1;
+public class PipelineSentencesTokensFraMed
+{
+//	static int index = 1;
 
-	public static TextAnnoation runPipeline(
+	public static TextAnnotation runPipeline(
 			String inputText,
 			String longId,
-			String id) throws IOException, UIMAException {
+			String id) throws IOException, UIMAException
+	{
 		AnalysisEngine sentenceAE = AnalysisEngineFactory.createEngine("de.julielab.jcore.ae.jsbd.desc.jcore-jsbd-ae-medical-german");
 		AnalysisEngine tokenAE = AnalysisEngineFactory.createEngine("de.julielab.jcore.ae.jtbd.desc.jcore-jtbd-ae-medical-german");
 		AnalysisEngine posAE = AnalysisEngineFactory.createEngine("de.julielab.jcore.ae.jpos.desc.jcore-jpos-ae-medical-german");
@@ -50,7 +52,7 @@ public class PipelineSentencesTokensFraMed {
 		ArrayList<StandOffPos> annoPos = new ArrayList<StandOffPos>();
 		annoPos = getPOSAnno(jCas, POSTag.type);
 
-		TextAnnoation annotation = new TextAnnoation();
+		TextAnnotation annotation = new TextAnnotation();
 
 		annotation.setSentencesAnnotation(annoSentences);
 		annotation.setTokenAnnotation(annoTokens);
@@ -59,6 +61,17 @@ public class PipelineSentencesTokensFraMed {
 		annotation.setId(id);
 		annotation.setSentences(sentences);
 		annotation.setTokens(tokens);
+
+		String[] sentencesCount = sentences.split("\n");
+		Integer countSent = sentencesCount.length;
+		annotation.setCountSentences(countSent);
+
+		String[] tokensCount = tokens.split("\\s");
+		Integer countTok = tokensCount.length;
+		annotation.setCountTokens(countTok);
+		
+//		static Integer countSentences = 0;
+//		static Integer countTokens = 0;
 
 		return annotation;
 	}
@@ -81,14 +94,14 @@ public class PipelineSentencesTokensFraMed {
 	}
 
 	public static String getTokSent(JCas jCas, int type) {
-		FSIterator<org.apache.uima.jcas.tcas.Annotation> elements = jCas.getAnnotationIndex(type).iterator();
-		String e = "";
-		while (elements.hasNext()) {
-			Annotation s = (Annotation) elements.next();
-			e = e + "\n" + s.getCoveredText();
+		FSIterator<org.apache.uima.jcas.tcas.Annotation> textElements = jCas.getAnnotationIndex(type).iterator();
+		String text = "";
+		while (textElements.hasNext()) {
+			Annotation s = (Annotation) textElements.next();
+			text = text + "\n" + s.getCoveredText();
 		}
-		e = e.replaceFirst("\n", "");
-		return e;
+		text = text.replaceFirst("\n", "");
+		return text;
 	}
 
 	public static ArrayList<StandOffToken> getTokAnno(JCas jCas, int type) {

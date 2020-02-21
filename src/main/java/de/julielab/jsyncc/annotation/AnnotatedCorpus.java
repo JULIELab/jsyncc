@@ -11,22 +11,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "corpus")
-public class AnnotatedCorpus {
-	@XmlElement(name = "doc", type = TextAnnoation.class)
-	private static List<TextAnnoation> listDocuments = new ArrayList<TextAnnoation>();
+public class AnnotatedCorpus
+{
+	@XmlElement(name = "documentAnnotation", type = TextAnnotation.class)
+	private static List<TextAnnotation> listDocuments = new ArrayList<TextAnnotation>();
 
-	public AnnotatedCorpus() {
+	public AnnotatedCorpus(){}
+
+	public AnnotatedCorpus(List<TextAnnotation> listDocuments) {
+		this.listDocuments = listDocuments;
 	}
 
-	public AnnotatedCorpus(List<TextAnnoation> listDocuments) {
-		AnnotatedCorpus.listDocuments = listDocuments;
-	}
-
-	public List<TextAnnoation> getListDocuments() {
+	public List<TextAnnotation> getListDocuments() {
 		return listDocuments;
 	}
-
-	public static void setListDocuments(List<TextAnnoation> listDocuments) {
+	
+	public static void setListDocuments(List<TextAnnotation> listDocuments) {
 		AnnotatedCorpus.listDocuments = listDocuments;
 	}
 }

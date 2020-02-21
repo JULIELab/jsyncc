@@ -19,7 +19,7 @@ public class CollecedCorpus
 	public CollecedCorpus(){}
 
 	public CollecedCorpus(List<TextDocument> listDocuments) {
-		CollecedCorpus.listDocuments = listDocuments;
+		this.listDocuments = listDocuments;
 	}
 
 	public List<TextDocument> getListDocuments() {
