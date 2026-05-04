@@ -1,0 +1,604 @@
+[
+	{
+		"books": {
+			"id": "01",
+			"source_short": "Siekmann2016OrthopedicsAccidentSurgery-V2",
+			"book_path": "books/01-Operationsberichte-Orthopaedie-und-Unfallchirurgie/978-3-662-48881-2.pdf",
+			"title": "Operationsberichte Orthopädie und Unfallchirurgie",
+			"topics": ["Chirurgie", "Orthopädie", "Unfallchirurgie"],
+			"author_editor": "Siekmann, H., Irlenbusch, L., Klima, S.",
+			"year": "2016",
+			"publisher": "Springer-Verlag",
+			"edition": "2. Auflage",
+			"doi": "10.1007/978-3-662-48881-2",
+			"java_class": "ReportsOrthopedicsAndAccidentSurgery",
+			"text_type": ["OperativeReport"],
+			"parser": "pdftotext",
+			"documents": "211",
+			"sentences": "10990",
+			"tokens": "111760"
+		}
+	},
+	{
+		"books": {
+			"id": "02",
+			"source_short": "Siekmann2013OrthopedicsSurgery-V2",
+			"book_path": "books/02-Operationsberichte-Orthopaedie/978-3-642-20790-7.pdf",
+			"title": "Operationsberichte Orthopädie: mit speziellen unfallchirurgisch-orthopädischen Eingriffen",
+			"topics": ["Chirurgie", "Orthopädie", "Unfallchirurgie"],
+			"author_editor": "Siekmann, H., Klima, S.",
+			"year": "2013",
+			"publisher": "Springer-Verlag",
+			"edition": "-",
+			"doi": "10.1007/978-3-642-20790-7",
+			"java_class": "ReportsOrthopedicsAndAccidentSurgery",
+			"text_type": ["OperativeReport"],
+			"parser": "pdftotext",
+			"documents": "71",
+			"sentences": "3675",
+			"tokens": "38099"
+		}
+	},
+	{
+		"books": {
+			"id": "03",
+			"source_short": "Siekmann2012AccidentSurgery-V2",
+			"book_path": "books/03-Operationsberichte-Unfallchirurgie/978-3-642-20784-6.pdf",
+			"title": "Operationsberichte Unfallchirurgie",
+			"topics": ["Chirurgie", "Unfallchirurgie"],
+			"author_editor": "Siekmann, H., Irlenbusch, L.",
+			"year": "2012",
+			"publisher": "Springer-Verlag",
+			"edition": "-",
+			"doi": "10.1007/978-3-642-20784-6",
+			"java_class": "ReportsOrthopedicsAndAccidentSurgery",
+			"text_type": ["OperativeReport"],
+			"parser": "pdftotext",
+			"documents": "55",
+			"sentences": "2604",
+			"tokens": "24676"
+		}
+	},
+	{
+		"books": {
+			"id": "04",
+			"source_short": "Hagen2005GeneralSurgery-V2",
+			"book_path": "books/04-Operationsberichte-fuer-Einsteiger/pdf",
+			"title": "Operationsberichte für Einsteiger-Chirurgie: Operation vorbereiten—Bericht diktieren",
+			"topics": ["Chirurgie"],
+			"author_editor": "Hagen, M.",
+			"year": "2005",
+			"publisher": "Georg-Thieme-Verlag",
+			"edition": "-",
+			"doi": "10.1055/b-002-39790",
+			"java_class": "ReportsGeneralSurgery",
+			"text_type": ["OperativeReport"],
+			"parser": "pdftoHTML",
+			"documents": "62",
+			"sentences": "1759",
+			"tokens": "18460"
+		}
+	},
+	{
+		"books": {
+			"id": "05",
+			"source_short": "Wenzel2015Emergency-V2",
+			"book_path": "books/05-Fallbeispiele-Notfallmedizin/978-3-662-47232-3.pdf",
+			"title": "Fallbeispiele Notfallmedizin: Einprägsam-spannend-mit Lerneffekt",
+			"topics": ["Notfallmedizin"],
+			"author_editor": "Wenzel, V.",
+			"year": "2015",
+			"publisher": "Springer-Verlag",
+			"edition": "-",
+			"doi": "10.1007/978-3-662-47232-3",
+			"java_class": "CasesEmergency",
+			"text_type": ["CaseDescription", "Discussion"],
+			"parser": "pdftotext",
+			"documents": "96",
+			"sentences": "2742",
+			"tokens": "63304"
+
+		}
+	},
+	{
+		"books": {
+			"id": "06",
+			"source_short": "Eisoldt2017CasesSurgery",
+			"book_path": "books/06-Fallbuch-Chirurgie",
+			"title": "Fallbuch Chirurgie: 140 Fälle aktiv bearbeiten",
+			"topics": ["Chirurgie"],
+			"author_editor": "Eisoldt, S.",
+			"year": "2017",
+			"publisher": "Georg-Thieme-Verlag",
+			"edition": "5., unveränderte Auflage",
+			"doi": "10.1055/b-004-140674",
+			"java_class": "CasesSurgery",
+			"text_type": ["CaseReport"],
+			"parser": "Apache_Tika",
+			"documents": "140",
+			"sentences": "700",
+			"tokens": "10325",
+			"table_of_contents" : "books/06-Fallbuch-Chirurgie/b-0036-141230.pdf"
+		}
+	},
+	{
+		"books": {
+			"id": "07",
+			"source_short": "Huebler2014ComplicationAnesthetics",
+			"book_path": "books/07-Komplikationen-in-der-Anaesthesie/978-3-662-43440-6.pdf",
+			"title": "Komplikationen in der Anästhesie",
+			"topics": ["Anästhesie"],
+			"author_editor": "Hübler, M., Koch, T.",
+			"year": "2014",
+			"publisher": "Springer-Verlag",
+			"edition": "3., überarbeitete Auflage",
+			"doi": "10.1007/978-3-662-43440-6",
+			"java_class": "CasesAnesthetics",
+			"text_type": ["CaseDescriptionLong"],
+			"parser": "Apache_Tika",
+			"documents": "35",
+			"sentences": "4609",
+			"tokens": "63282"
+		}
+	},
+	{
+		"books": {
+			"id": "08",
+			"source_short": "Zeyfang2017CasesAging-V2",
+			"book_path": "books/08-Basiswissen Medizin-des-Alterns-und-des-alten-Menschen/978-3-642-28905-7.pdf",
+			"title": "Basiswissen Medizin des Alterns und des alten Menschen",
+			"topics": ["Geriatrie"],
+			"author_editor": "Zeyfang, A., Denkinger, M., Hagg-Grün, U.",
+			"year": "2017",
+			"publisher": "Springer-Verlag",
+			"edition": "2., überarbeitete Auflage",
+			"doi": "10.1007/978-3-642-28905-7",
+			"java_class": "CasesAging",
+			"text_type": ["CaseReport"],
+			"parser": "Apache_Tika",
+			"documents": "19",
+			"sentences": "335",
+			"tokens": "5939"
+		}
+	},
+	{
+		"books": {
+			"id": "09",
+			"source_short": "Wilhelm2013IntensiveCare-V2",
+			"book_path": "books/09-Praxis-der-Intensivmedizin/978-3-642-34433-6.pdf",
+			"title": "Praxis der Intensivmedizin",
+			"topics": ["Intensivmedizin"],
+			"author_editor": "Wilhelm, W.",
+			"year": "2013",
+			"publisher": "Springer-Verlag",
+			"edition": "2., aktualisierte und erweiterte Auflage",
+			"doi": "10.1007/978-3-642-34433-6",
+			"java_class": "CasesIntensiveCare",
+			"text_type": ["CaseReport"],
+			"parser": "Apache_Tika",
+			"documents": "59",
+			"sentences": "1011",
+			"tokens": "18963"
+		}
+	},
+	{
+		"books": {
+			"id": "10",
+			"source_short": "Machado2013Culture-V2",
+			"book_path": "books/10-Patienten-aus-fremden-Kulturen-im-Notarzt-und-Rettungsdienst-Fallbeispiele-und-Praxistipps/978-3-642-34869-3.pdf",
+			"title": "Patienten aus fremden Kulturen im Notarzt- und Rettungsdienst: Fallbeispiele und Praxistipps",
+			"topics": ["Notfallmedizin"],
+			"author_editor": "Machado, C.",
+			"year": "2013",
+			"publisher": "Springer-Verlag",
+			"edition": "-",
+			"doi": "10.1007/978-3-642-34869-3",
+			"java_class": "CasesCulture",
+			"text_type": ["CaseDescription"],
+			"parser": "Apache_Tika",
+			"documents": "11",
+			"sentences": "416",
+			"tokens": "5901"
+		}
+	},
+	{
+		"books": {
+			"id": "11",
+			"source_short": "Thiel2013Ophthalmology-V2",
+			"book_path": "books/11-Fallbeispiele-Augenheilkunde/978-3-642-42219-5.pdf",
+			"title": "Fallbeispiele Augenheilkunde",
+			"topics": ["Augenheilkunde"],
+			"author_editor": "Thiel, M.A., Bernauer, W., Schüpfer, M.Z., Schmid, M.K.",
+			"year": "2013",
+			"publisher": "Springer-Verlag",
+			"edition": "-",
+			"doi": "10.1007/978-3-642-42219-5",
+			"java_class": "CasesOphthalmology",
+			"text_type": ["CaseReportLong", "Discussion"],
+			"parser": "Apache_Tika",
+			"documents": "72",
+			"sentences": "953",
+			"tokens": "17171"
+		}
+	},
+	{
+		"books": {
+			"id": "12",
+			"source_short": "vonReibnitz2017CasesGeriatricCare",
+			"book_path": "books/12-Patientenorientierte-Beratung-in-der-Pflege/978-3-662-53028-3.pdf",
+			"title": "Patientenorientierte Beratung in der Pflege Leitfäden und Fallbeispiele",
+			"topics": ["Geriatrie"],
+			"author_editor": "von Reibnitz, C., Sonntag, K., Strackbein, D.",
+			"year": "2017",
+			"publisher": "Springer-Verlag",
+			"edition": "-",
+			"doi": "10.1007/978-3-662-53028-3",
+			"java_class": "CasesGeriatricCare",
+			"text_type": ["CaseDescription"],
+			"parser": "pdftotext",
+			"documents": "6",
+			"sentences": "785",
+			"tokens": "14444"
+		}
+	},
+	{
+	"books": {
+		"id": "13",
+		"source_short": "Zifko2017ExamplesPolyneuropathy",
+		"book_path": "books/13-Polyneuropathie/978-3-662-53871-5.pdf",
+		"title": "Polyneuropathie",
+		"topics": ["Polyneuropathie"],
+		"author_editor": "Zifko, U.",
+		"year": "2017",
+		"publisher": "Springer-Verlag",
+		"edition": "-",
+		"doi": "10.1007/978-3-662-53871-5",
+		"java_class": "CasesPolyneuropathy",
+		"text_type": ["CaseDescription"],
+		"parser": "pdftoHTML",
+		"documents": "17",
+		"sentences": "237",
+		"tokens": "4366"
+	}
+	},
+	{
+		"books": {
+			"id": "14",
+			"source_short": "Puchner2017RheumatologyPractice",
+			"book_path": "books/14-Rheumatologie-aus-der-Praxis/978-3-7091-1044-7.txt",
+			"title": "Rheumatologie aus der Praxis: Ein Kurzlehrbuch der entzündlichen Gelenkerkrankungen mit Fallbeispielen",
+			"topics": ["Rheumatologie"],
+			"author_editor": "Puchner, R. (Eds.)",
+			"year": "2012",
+			"publisher": "Springer-Verlag",
+			"edition": "Zweite, überarbeitete und erweiterte Auflage",
+			"doi": "10.1007/978-3-7091-1044-7",
+			"java_class": "CasesRheumatologyPractice",
+			"text_type": ["CaseDescription", "Discussion"],
+			"parser": "Apache_Tika",
+			"documents": "76",
+			"sentences": "834",
+			"tokens": "15915"
+		}
+	},
+	{
+		"books": {
+			"id": "15",
+			"source_short": "Speer2013Pediatrics",
+			"book_path": "books/15-Pädiatrie/978-3-642-34269-1.pdf",
+			"title": "Pädiatrie",
+			"topics": ["Pädiatrie"],
+			"author_editor": "Speer, C.P., Gahr, M.",
+			"year": "2013",
+			"publisher": "Springer-Verlag",
+			"edition": "4., überarbeitete Auflage",
+			"doi": "10.1007/978-3-642-34269-1",
+			"java_class": "CasesPediatrics",
+			"text_type": ["CaseReport"],
+			"parser": "Apache_Tika",
+			"documents": "34",
+			"sentences": "610",
+			"tokens": "8811"
+		}
+	},
+	{
+		"books": {
+			"id": "16",
+			"source_short": "Hellmich2017CasesInternalMedicine-V2",
+			"book_path": "books/16-Fallbuch-Innere-Medizin",
+			"title": "Fallbuch Innere Medizin",
+			"topics": ["Innere Medizin"],
+			"author_editor": "Hellmich, B.",
+			"year": "2017",
+			"publisher": "Georg-Thieme-Verlag",
+			"edition": "5., vollständig überarbeitete Auflage",
+			"doi": "10.1055/b-0037-142744",
+			"java_class": "CasesInternalMedicine",
+			"text_type": ["CaseReport"],
+			"parser": "Apache_Tika",
+			"documents": "150",
+			"sentences": "1056",
+			"tokens": "15638"
+		}
+	},
+	{
+		"books": {
+			"id": "17",
+			"source_short": "Stier2017CasesBoysMedicine",
+			"book_path": "books/17-Manual-Jungenmedizin/978-3-658-17323-4.pdf",
+			"title": "Manual Jungenmedizin",
+			"topics": ["Urologie", "Pädiatrie"],
+			"author_editor": "Stier, B.",
+			"year": "2017",
+			"publisher": "Springer-Verlag",
+			"edition": "-",
+			"doi": "10.1007/978-3-658-17323-4",
+			"java_class": "CasesBoysMedicine",
+			"text_type": ["CaseReport"],
+			"parser": "Apache_Tika",
+			"documents": "15",
+			"sentences": "93",
+			"tokens": "1088"
+		}
+	},
+	{
+		"books": {
+			"id": "18",
+			"source_short": "Flake2016PediatricEmergencies",
+			"book_path": "books/18-Kindernotfälle-im-Rettungsdienst/978-3-662-49305-2.pdf",
+			"title": "Kindernotfälle im Rettungsdienst",
+			"topics": ["Pädiatrie", "Notfallmedizin"],
+			"author_editor": "Flake, F., Steinichen, F.",
+			"year": "2016",
+			"publisher": "Springer-Verlag",
+			"edition": "5., aktualisierte Auflage",
+			"doi": "10.1007/978-3-662-49305-2",
+			"java_class": "CasesPediatricEmergencies",
+			"text_type": ["CaseDescription", "Discussion"],
+			"parser": "Apache_Tika",
+			"documents": "12",
+			"sentences": "212",
+			"tokens": "3178"
+		}
+	},
+	{
+		"books": {
+			"id": "19",
+			"source_short": "KahlScholz2017BasicsRadiology",
+			"book_path": "books/19-Basiswissen-Radiologie/978-3-662-54278-1.pdf",
+			"title": "Basiswissen Radiologie: Nuklearmedizin und Strahlentherapie",
+			"topics": ["Radiologie"],
+			"author_editor": "Kahl-Scholz, M., Vockelmann, C. (Eds.)",
+			"year": "2017",
+			"publisher": "Springer-Verlag",
+			"edition": "-",
+			"doi": "10.1007/978-3-662-54278-1",
+			"java_class": "CasesBasicsRadiology",
+			"text_type": ["CaseReport"],
+			"parser": "Apache_Tika",
+			"documents": "11",
+			"sentences": "160",
+			"tokens": "2288"
+		}
+	},
+	{
+		"books": {
+			"id": "20",
+			"source_short": "Geiss2007InfectiologicalCases",
+			"book_path": "books/20-Der-klinisch-infektiologische-Fall/978-3-540-69847-0.pdf",
+			"title": "Der klinisch-infektiologische Fall",
+			"topics": ["Infektiologie"],
+			"author_editor": "Geiss, H.K., Jacobs, E., Mack, D.",
+			"year": "2007",
+			"publisher": "Springer-Verlag",
+			"edition": "-",
+			"doi": "10.1007/978-3-540-69847-0",
+			"java_class": "CasesClinicalInfectiological",
+			"text_type": ["CaseDescription"],
+			"parser": "pdftotext",
+			"documents": "43",
+			"sentences": "1977",
+			"tokens": "25636"
+		}
+	},
+	{
+		"books": {
+			"id": "21",
+			"source_short": "Schaaf2018HumanGenetics",
+			"book_path": "books/21-Basiswissen-Humangenetik/978-3-642-28907-1.pdf",
+			"title": "Basiswissen Humangenetik",
+			"topics": ["Genetik"],
+			"author_editor": "Schaaf, C., Zschocke, J.",
+			"year": "2018",
+			"publisher": "Springer-Verlag",
+			"edition": "2., überarbeitete Auflage",
+			"doi": "10.1007/978-3-642-28907-1",
+			"java_class": "CasesHumanGenetics",
+			"text_type": ["CaseReport"],
+			"parser": "Apache_Tika",
+			"documents": "31",
+			"sentences": "375",
+			"tokens": "6907"
+		}
+	},
+	{
+		"books": {
+			"id": "22",
+			"source_short": "Niebauer2015SportsCardiology",
+			"book_path": "books/22-Sportkardiologie/978-3-662-43711-7.pdf",
+			"title": "Sportkardiologie",
+			"topics": ["Kardiologie"],
+			"author_editor": "Niebauer, J.",
+			"year": "2015",
+			"publisher": "Springer-Verlag",
+			"edition": "-",
+			"doi": "10.1007/978-3-662-43711-7",
+			"java_class": "CasesSportsCardiology",
+			"text_type": ["CaseReport"],
+			"parser": "Apache_Tika",
+			"documents": "3",
+			"sentences": "13",
+			"tokens": "203"
+		}
+	},
+	{
+		"books": {
+			"id": "23",
+			"source_short": "Riede2015Pathology",
+			"book_path": "books/23-Allgemeine-und-Spezielle-Pathologie/2017_Book_AllgemeineUndSpeziellePatholog.pdf",
+			"title": "Allgemeine und Spezielle Pathologie",
+			"topics": ["Pathologie"],
+			"author_editor": "Riede, U.-N., Werner, M.",
+			"year": "2015",
+			"publisher": "Springer-Verlag",
+			"edition": "2., überarbeitete Auflage",
+			"doi": "10.1007/978-3-662-48725-9",
+			"java_class": "CasesPathology",
+			"text_type": ["CaseDescription"],
+			"parser": "Apache_Tika",
+			"documents": "51",
+			"sentences": "512",
+			"tokens": "9068"
+		}
+	},
+	{
+		"books": {
+			"id": "24",
+			"source_short": "Mayr2018AcuteAbdomenChild-V2",
+			"book_path": "books/24-Akutes-Abdomen-im-Kindes-und-Jugendalter/2018_Book_AkutesAbdomenImKindes-UndJugen.pdf",
+			"title": "Akutes Abdomen im Kindes-und Jugendalter",
+			"topics": ["Pädiatrie", "Akutes Abdomen"],
+			"author_editor": "Mayr, J., Fasching, G.",
+			"year": "2018",
+			"publisher": "Springer-Verlag",
+			"edition": "-",
+			"doi": "10.1007/978-3-662-55995-6",
+			"java_class": "CasesAcuteAbdomenChildhood",
+			"text_type": ["CaseReport"],
+			"parser": "Apache_Tika",
+			"documents": "17",
+			"sentences": "182",
+			"tokens": "2485"
+		}
+	},
+	{
+		"books": {
+			"id": "25",
+			"source_short": "Richter2018OperativeReports-V2",
+			"book_path": "books/25-Operationsberichte-Allgemein-Viszeral-Gefaeß-und-Thoraxchirurgie/2018_Book_OperationsberichteAllgemein-Vi.pdf",
+			"title": "Operationsberichte Allgemein-, Viszeral-, Gefäß- und Thoraxchirurgie",
+			"topics": ["Chirurgie"],
+			"author_editor": "Richter, O., Uhlmann, D.",
+			"year": "2018",
+			"publisher": "Springer-Verlag",
+			"edition": "2. Auflage",
+			"doi": "10.1007/978-3-662-57283-2",
+			"java_class": "ReportsGeneralVisceralVascularThoracicSurgery",
+			"text_type": ["OperativeReport"],
+			"parser": "pdftotext",
+			"documents": "209",
+			"sentences": "11043",
+			"tokens": "132571"
+		}
+	},
+	{
+		"books": {
+			"id": "26",
+			"source_short": "Marx2016SleepMedicine",
+			"book_path": "books/26-Nichtorganische-Schlafstörungen/2016_Book_NichtorganischeSchlafstörungen.pdf",
+			"title": "Nichtorganische Schlafstörungen",
+			"topics": ["Schlafmedzin"],
+			"author_editor": "Marx, C.",
+			"year": "2016",
+			"publisher": "Springer-Verlag",
+			"edition": "-",
+			"doi": "10.1007/978-3-662-50272-3",
+			"java_class": "CasesSleepMedicine",
+			"text_type": ["CaseDescriptionLong"],
+			"parser": "pdftotext",
+			"documents": "5",
+			"sentences": "599",
+			"tokens": "7672"
+		}
+	},
+	{
+		"books": {
+			"id": "27",
+			"source_short": "Riedl2017GeneralMedicine",
+			"book_path": "books/27-Basiswissen-Allgemein-Medizin/2017_Book_BasiswissenAllgemeinmedizin.pdf",
+			"title": "Grundlegendes zur Allgemeinmedizin. Basiswissen Allgemeinmedizin",
+			"topics": ["Allgmeinmedizin"],
+			"author_editor": "Riedl, B., Peter W.",
+			"year": "2017",
+			"publisher": "Springer-Verlag",
+			"edition": "-",
+			"doi": "10.1007/978-3-662-53480-9",
+			"java_class": "CasesGeneralMedicine",
+			"text_type": ["CaseReport"],
+			"parser": "Apache_Tika",
+			"documents": "57",
+			"sentences": "660",
+			"tokens": "12884"
+		}
+	},
+	{
+		"books": {
+			"id": "28",
+			"source_short": "Lasch2017CasesGynecology",
+			"book_path": "books/28-Basiswissen-Gynäkologie/2017_Book_BasiswissenGynäkologieUndGebur.pdf",
+			"title": "Basiswissen Gynäkologie und Geburtshilfe",
+			"topics": ["Gynäkologie"],
+			"author_editor": "Lasch, L., Fillenberg S.",
+			"year": "2017",
+			"publisher": "Springer-Verlag",
+			"edition": "-",
+			"doi": "10.1007/978-3-662-52809-9",
+			"java_class": "CasesBasicsGynecology",
+			"text_type": ["CaseReport"],
+			"parser": "Apache_Tika",
+			"documents": "28",
+			"sentences": "525",
+			"tokens": "9557"
+		}
+	},
+	{
+		"books": {
+			"id": "29",
+			"source_short": "Siekmann2013EmergencyReports",
+			"book_path": "books/29-Ambulanzprotokolle/2019_Book_AmbulanzprotokolleChirurgische.pdf",
+			"title": "Ambulanzprotokolle Chirurgische Notfälle",
+			"topics": ["Notfallmedizin"],
+			"author_editor": "Siekmann, H.",
+			"year": "2019",
+			"publisher": "Springer-Verlag",
+			"edition": "-",
+			"doi": "10.1007/978-3-662-57651-9",
+			"java_class": "ReportsEmergency",
+			"text_type": ["ReportEmergency"],
+			"parser": "Apache_Tika",
+			"documents": "153",
+			"sentences": "6021",
+			"tokens": "50608"
+		}
+	},
+	{
+		"books": {
+			"id": "30",
+			"source_short": "PubMedCaseAbstract",
+			"book_path": "books/30-PubMed-Abstracts/allGermanPubMedCaseAbstracts_20200615.xml",
+			"title": "PubMed German Case Abstract",
+			"topics": ["MISC"],
+			"author_editor": "-",
+			"year": "-",
+			"publisher": "-",
+			"edition": "-",
+			"doi": "-",
+			"java_class": "PubMedCaseAbstracts",
+			"text_type": ["PubMedAbstract"],
+			"parser": "xml",
+			"documents": "1",
+			"sentences": "2850",
+			"tokens": "46853"
+		}
+	}
+]

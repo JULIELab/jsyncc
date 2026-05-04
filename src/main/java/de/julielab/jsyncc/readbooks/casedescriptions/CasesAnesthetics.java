@@ -1,32 +1,21 @@
 package de.julielab.jsyncc.readbooks.casedescriptions;
 
-import de.julielab.jsyncc.readbooks.BookExtractor;
-import de.julielab.jsyncc.readbooks.BookReader;
+import de.julielab.jsyncc.readbooks.BookProperties;
 import de.julielab.jsyncc.readbooks.TextDocument;
-import de.julielab.jsyncc.tools.ExtractionUtils;
-import de.julielab.jsyncc.tools.LanguageTools;
+import de.julielab.jsyncc.tools.*;
 
 import org.apache.commons.lang3.exception.ContextedException;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CasesAnesthetics implements BookExtractor {
-	private final int ID = 7;
-	private final String SOURCE = BookReader.yaml.getSourceById(ID);
-	private final String SOURCE_SHORT = BookReader.yaml.getSourceShortById(ID);
+public class CasesAnesthetics
+{
 
-	public static final String BOOK = "books/07-Komplikationen-in-der-Anaesthesie/978-3-662-43440-6.pdf";
-	public static final String TYPE = "CaseDescriptionLong";
-	public static final String TOPIC = "Anästhesie";
+	public static List<TextDocument> extractContent(BookProperties bookProperties) throws ContextedException
+	{
 
-	@Override
-	public List<TextDocument> extractContent(String plainText) {
-		List<TextDocument> listDocuments = new ArrayList<>();
+		String plainText = ExtractionUtils.getContentByTika(bookProperties.bookPath);
+		List<TextDocument> texttDocuments = new ArrayList<>();
 
 		List<String> tableOfContents = new ArrayList<>();
 		List<ArrayList<String>> tableOfTopics = new ArrayList<ArrayList<String>>();
@@ -46,21 +35,26 @@ public class CasesAnesthetics implements BookExtractor {
 		String textsecondPart = "";
 		String textlastPart = "";
 
-		for (int i = 0; i < lines.length; i++) {
-			if (readTableOfContents) {
-				if (lines[i].startsWith(" z Fall")) {
-					String actHeading = lines[i].replaceAll(" z Fall\\u00A0?\\s?\\d+\\s\\u2013?\\s", "");
-					tableOfContents.add(actHeading);
+		for (int i = 0; i < lines.length; i++)
+		{
+			if (readTableOfContents)
+			{
+				if (lines[i].startsWith(" z Fall"))
+				{
+					String currentHeading = lines[i].replaceAll(" z Fall\\u00A0?\\s?\\d+\\s\\u2013?\\s", "");
+					tableOfContents.add(currentHeading);
 
-					if (!(actTopics.equals(""))) {
+					if (!(actTopics.equals("")))
+					{
 						String[] temp = actTopics.split("–");
 						ArrayList<String> tempList = new ArrayList<>();
 
-						for (int j = 0; j < temp.length; j++) {
+						for (int j = 0; j < temp.length; j++)
+						{
 							temp[j] = temp[j].replaceAll("\\s+", " ");
 							temp[j] = temp[j].replaceAll("-\\s", "");
 							temp[j] = temp[j].replaceFirst("\\s", "");
-							temp[j] = temp[j].substring(0, temp[j].length() - 1);
+							temp[j] = temp[j].substring(0,temp[j].length() - 1);
 							tempList.add(temp[j]);
 						}
 
@@ -69,133 +63,233 @@ public class CasesAnesthetics implements BookExtractor {
 
 					actTopics = "";
 
-				} else {
-					if ((!(lines[i].equals(""))) && (!(lines[i].contains("Übersicht der Fallbeispiele")))
-							&& (!(lines[i].matches("XV"))) && (!(lines[i].contains("Inhalt der Fallbeispiele")))) {
-						actTopics = actTopics + " " + lines[i];
+				}
+				else
+				{
+					if (
+						(!(lines[i].equals("")))
+					&&
+						(!(lines[i].contains("Übersicht der Fallbeispiele")))
+					&&
+						(!(lines[i].matches("XV")))
+					&&
+						(!(lines[i].contains("Inhalt der Fallbeispiele")))
+						)
+					{
+						actTopics = actTopics + " "+ lines[i];
 					}
 				}
 			}
 
-			if (lines[i].startsWith("Übersicht der Fallbeispiele")) {
+			if (lines[i].startsWith("Übersicht der Fallbeispiele"))
+			{
 				readTableOfContents = true;
 			}
 
-			if ((lines[i].startsWith("Inhalt der Fallbeispiele")) && readTableOfContents) {
+			if ((lines[i].startsWith("Inhalt der Fallbeispiele")) && readTableOfContents)
+			{
 				readTableOfContents = false;
 
 				String[] temp = actTopics.split(" – ");
 				ArrayList<String> tempList = new ArrayList<>();
 
-				for (int j = 0; j < temp.length; j++) {
+				for (int j = 0; j < temp.length; j++)
+				{
 					temp[j] = temp[j].replaceAll("\\s+", " ");
 					temp[j] = temp[j].replaceAll("-\\s", "");
 					temp[j] = temp[j].replaceFirst("\\s", "");
-					temp[j] = temp[j].substring(0, temp[j].length() - 1);
+					temp[j] = temp[j].substring(0,temp[j].length() - 1);
 					tempList.add(temp[j]);
 				}
 
 				tableOfTopics.add(tempList);
 			}
 
-			if (lines[i].matches("\\d+\\.1\\.1.*")) {
+			if (lines[i].matches("\\d+\\.1\\.1.*"))
+			{
 				readFirstPart = false;
 			}
 
-			if (readFirstPart) {
-				if ((!(lines[i].matches("\\d+"))) && (!(lines[i].matches("\\d+\\.\\d\\. .*")))
-						&& (!(lines[i].matches("\\d+ \\d")))
-						&& (!(lines[i].matches("\\d+.\\d+( |\u00A0)\u2022\u00A0 .*")))
-						&& (!(lines[i].matches("\\d+ Kapitel.*")))) {
+			if (readFirstPart)
+			{
+				if (
+						(!(lines[i].matches("\\d+")))
+					&&
+						(!(lines[i].matches("\\d+\\.\\d\\. .*")))
+					&&
+						(!(lines[i].matches("\\d+ \\d")))
+					&&
+						(!(lines[i].matches("\\d+.\\d+( |\u00A0)\u2022\u00A0 .*")))
+					&&
+						(!(lines[i].matches("\\d+ Kapitel.*")))
+					)
+				{
 					text = text + "\n" + lines[i];
 				}
 			}
 
-			if ((lines[i].startsWith("Was geschah")) || (lines[i].startsWith("…Was geschah"))) {
+			if (
+					(lines[i].startsWith("Was geschah"))
+				||
+					(lines[i].startsWith("…Was geschah"))
+				)
+			{
 				readFirstPart = true;
 			}
 
-			if ((readSecondStep)
-					&& ((lines[i].matches("\\d+\\.\\d\\. .*")) || (lines[i].matches("\\d+\\.\\d+\\.\\d+ .*")))) {
+			if ( (readSecondStep)
+					&&
+				(
+					(lines[i].matches("\\d+\\.\\d\\. .*"))
+				||
+					(lines[i].matches("\\d+\\.\\d+\\.\\d+ .*"))
+				)
+			)
+			{
 				readSecondStep = false;
 			}
 
-			if (readSecondStep) {
-
-				if (lines[i].startsWith(". Tab. 2.1 ")) {
+			if (readSecondStep)
+			{
+				
+				if (lines[i].startsWith(". Tab. 2.1 "))
+				{
 					i = i + 47;
-				} else if (lines[i].startsWith(" 5 Intrathorakale Ursachen:")) {
+				}
+				else if (lines[i].startsWith(" 5 Intrathorakale Ursachen:"))
+				{
 					i = i + 38;
-				} else if (lines[i].startsWith(
-						". Tab. 7.2 Indikationen für einen intraossären Zugang in der Kinderanästhesie. (Mod. nach [10,11])")) {
+				}
+				else if (lines[i].startsWith(". Tab. 7.2 Indikationen für einen intraossären Zugang in der Kinderanästhesie. (Mod. nach [10,11])"))
+				{
 					i = i + 42;
-				} else if (lines[i].startsWith(". Tab. 9.1 Einteilung der Schweregrade einer ")) {
+				}
+				else if (lines[i].startsWith(". Tab. 9.1 Einteilung der Schweregrade einer "))
+				{
 					i = i + 66;
-				} else if (lines[i].startsWith(". Tab. 15.1  Einfluss der Sauerstoffflussrate bei ")) {
+				}
+				else if (lines[i].startsWith(". Tab. 15.1  Einfluss der Sauerstoffflussrate bei "))
+				{
 					i = i + 49;
-				} else if (lines[i].startsWith("10 II")) {
+				}
+				else if (lines[i].startsWith("10 II"))
+				{
 					i = i + 26;
-				} else if (lines[i].startsWith(". Tab. 16.1 Modifizierter Mallampati-Score")) {
+				}
+				else if (lines[i].startsWith(". Tab. 16.1 Modifizierter Mallampati-Score"))
+				{
 					i = i + 102;
-				} else if (textsecondPart.endsWith("wort an Frau Scholz.")) {
+				}
+				else if (textsecondPart.endsWith("wort an Frau Scholz."))
+				{
 					i = i + 38;
-				} else if (lines[i].startsWith("% 10 mg")) {
+				}
+				else if (lines[i].startsWith("% 10 mg"))
+				{
 					i = i + 11;
-				} else if (lines[i].startsWith(". Tab. 20.1 Höchstdosen einzelner Lokalanäs-")) {
+				}
+				else if (lines[i].startsWith(". Tab. 20.1 Höchstdosen einzelner Lokalanäs-"))
+				{
 					i = i + 47;
-				} else if (lines[i].startsWith("Empfehlungen zur Anwendung von Hyd-")) {
+				}
+				else if (lines[i].startsWith("Empfehlungen zur Anwendung von Hyd-"))
+				{
 					i = i + 36;
-				} else if (lines[i].equals("OI")) {
+				}
+				else if (lines[i].equals("OI"))
+				{
 					i = i + 16;
-				} else if (lines[i].equals("II")) {
+				}
+				else if (lines[i].equals("II"))
+				{
 					i = i + 20;
-				} else if (lines[i].startsWith("fohlenen und markierten Insertionstiefe)")) {
+				}
+				else if (lines[i].startsWith("fohlenen und markierten Insertionstiefe)"))
+				{
 					i = i + 24;
-				} else if (lines[i].startsWith("Halbwertszeit Vor Punktion/Ka-")) {
+				}
+				else if (lines[i].startsWith("Halbwertszeit Vor Punktion/Ka-"))
+				{
 					i = i + 38;
-				} else if (lines[i].startsWith("Anforderungen der DIVI an den begleiten-")) {
+				}
+				else if (lines[i].startsWith("Anforderungen der DIVI an den begleiten-"))
+				{
 					i = i + 27;
-				} else if (lines[i].equals("0")) {
+				}
+				else if (lines[i].equals("0"))
+				{
 					i = i + 47;
-				} else if (lines[i].equals("zu geringe Dämpfung")) {
+				}
+				else if (lines[i].equals("zu geringe Dämpfung"))
+				{
 					i = i + 21;
-				} else if (lines[i].equals("lebensbedrohliche")) {
+				}
+				else if (lines[i].equals("lebensbedrohliche"))
+				{
 					i = i + 64;
-				} else if (lines[i].equals(". Tab. 32.1 Einteilung der Niereninsuffizienz")) {
+				}
+				else if (lines[i].equals(". Tab. 32.1 Einteilung der Niereninsuffizienz"))
+				{
 					i = i + 32;
-				} else if (lines[i].equals("Trigger")) {
+				}
+				else if (lines[i].equals("Trigger"))
+				{
 					i = i + 43;
-				} else if (lines[i].equals(". Tab. 35.2  APGAR-Score nach Virginia Apgar [4]")) {
+				}
+				else if (lines[i].equals(". Tab. 35.2  APGAR-Score nach Virginia Apgar [4]"))
+				{
 					i = i + 35;
-				} else if (lines[i].equals(". Tab. 35.3 Differenzialdiagnosen für Bewusstlosigkeit")) {
+				}
+				else if (lines[i].equals(". Tab. 35.3 Differenzialdiagnosen für Bewusstlosigkeit"))
+				{
 					i = i + 29;
-				} else {
+				}
+				else
+				{
 					textsecondPart = textsecondPart + "\n" + lines[i];
 				}
 			}
 
-			if (lines[i].contains("so geht es weiter")) {
+			if (lines[i].contains("so geht es weiter"))
+			{
 				readSecondStep = true;
 				textsecondPart = textsecondPart + "\nBREAKPARAGRAPH\n";
 			}
 
-			if ((readLastPart)
-					&& ((lines[i].matches("\\d+\\.\\d\\.? .*")) || (lines[i].matches("\\d+\\.\\d+\\.\\d+ .*")))) {
+			if ( (readLastPart)
+					&&
+				(
+					(lines[i].matches("\\d+\\.\\d\\.? .*"))
+				||
+					(lines[i].matches("\\d+\\.\\d+\\.\\d+ .*"))
+				)
+			)
+			{
 				readLastPart = false;
 
-				String finalText = cleanText(text, plainText) + "\n" + cleanText(textsecondPart, plainText) + "\n"
+				String documentText = cleanText(text, plainText)+ "\n"
+						+ cleanText(textsecondPart, plainText) + "\n"
 						+ cleanText(textlastPart, plainText);
 
 				TextDocument textDocument = new TextDocument();
-				textDocument.setText(finalText);
-				textDocument.getTopic().add(TOPIC);
-				textDocument.setType(TYPE);
+				textDocument.setText(documentText);
+				textDocument.topics.add(bookProperties.topics.get(0));
+				textDocument.setDocumentType(bookProperties.documentType.get(0));
 
 				index++;
-				textDocument.setIdLong(SOURCE_SHORT + "-" + index);
-				textDocument.setSource(SOURCE);
+				textDocument.setIdLong(bookProperties.getSourceShort() + "-" + index);
+				textDocument.setSource(
+						bookProperties.getTitle() + " " +
+						bookProperties.getEditorAuthor() + " " +
+						bookProperties.getYear() + " " +
+						bookProperties.getPublisher() + " " +
+						bookProperties.getDoi()
+				);
+				textDocument.setHeading(tableOfContents.get(index-1));
+				textDocument.setSourcShort(bookProperties.sourceShort);
+				textDocument.setBookId(bookProperties.bookId);
 
-				listDocuments.add(textDocument);
+				texttDocuments.add(textDocument);
 
 				text = "";
 				textsecondPart = "";
@@ -203,30 +297,43 @@ public class CasesAnesthetics implements BookExtractor {
 
 			}
 
-			if (readLastPart) {
-				if (lines[i].equals("II")) {
+			if (readLastPart)
+			{
+				if (lines[i].equals("II"))
+				{
 					i = i + 19;
-				} else if (lines[i].startsWith(". Abb. 15.2  Seitliche Röntgenaufnahmen")) {
+				}
+				else if (lines[i].startsWith(". Abb. 15.2  Seitliche Röntgenaufnahmen"))
+				{
 					i = i + 10;
-				} else if (lines[i].startsWith("Glukose")) {
+				}
+				else if (lines[i].startsWith("Glukose"))
+				{
 					i = i + 25;
-				} else if (lines[i].startsWith(". Tab. 35.4 Inzidenzen von intrazerebralen")) {
+				}
+				else if (lines[i].startsWith(". Tab. 35.4 Inzidenzen von intrazerebralen"))
+				{
 					i = i + 59;
-				} else {
+				}
+				else
+				{
 					textlastPart = textlastPart + "\n" + lines[i];
 				}
 			}
-
-			if (lines[i].contains("das Ende des Falls")) {
+			
+			if (lines[i].contains("das Ende des Falls"))
+			{
 				readLastPart = true;
 			}
 		}
 
-		return listDocuments;
+		return texttDocuments;
 	}
 
-	public static String cleanText(String text, String plainText) {
-		if (text.startsWith("\nEs war 19.15")) {
+	public static String cleanText(String text, String plainText)
+	{
+		if (text.startsWith("\nEs war 19.15"))
+		{
 			text = text.replaceAll("Mögliche Ursachen präoperativer.*\\n(.*\\n)*", "\n");
 			int begin = plainText.indexOf("Schwellung hatte im");
 			int end = plainText.indexOf("25.1.1 Was");
@@ -244,31 +351,45 @@ public class CasesAnesthetics implements BookExtractor {
 		text = text.replaceAll("\u2013", "-"); // En dash −
 		text = text.replaceAll("\u2212", "-"); // Minus −
 
-		if (!(text.contains("\n 5 "))) {
+		if (!(text.contains("\n 5 ")))
+		{
 			text = text.replaceAll("\n+", " ");
-		} else {
+		}
+		else
+		{
 			String[] lines = text.split("\n");
 			text = "";
 
-			for (int i = 0; i < lines.length; i++) {
-				if (lines[i].startsWith(" 5 ")) // Absatz mit Bullet, Codierung
-												// == "5"
+			for (int i = 0; i < lines.length; i++)
+			{
+				if (lines[i].startsWith(" 5 ")) // Absatz mit Bullet, Codierung == "5"
 				{
 					lines[i] = lines[i].replaceFirst(" 5 ", "- ");
 
-					if (text.endsWith("\n")) {
+					if (text.endsWith("\n"))
+					{
 						text = text + lines[i];
-					} else {
+					}
+					else
+					{
 						text = text + "\n" + lines[i];
 					}
-				} else {
-					if (text.equals("")) {
+				}
+				else
+				{
+					if (text.equals(""))
+					{
 						text = lines[i];
-					} else {
-						if (text.endsWith("\n")) {
-							text = text.substring(0, text.length() - 1);
-							text = text + "" + lines[i];
-						} else {
+					}
+					else
+					{
+						if (text.endsWith("\n"))
+						{
+								text = text.substring(0, text.length() - 1);
+								text = text + "" + lines[i];
+						}
+						else
+						{
 							text = text + " " + lines[i];
 						}
 					}
@@ -300,6 +421,7 @@ public class CasesAnesthetics implements BookExtractor {
 			text = text.replaceAll("\\(Norm 70-99 mg/dl\\)\\.", "(Norm 70-99 mg/dl).\n");
 			text = text.replaceAll(" Sinusrhythmus.", " Sinusrhythmus.\n");
 			text = text.replaceAll("fiebrigen Harnwegsinfekts\\.", "fiebrigen Harnwegsinfekts.\n");
+			//text = text.replaceAll("% 10 mg ml × = ", ""); //Nr. 18
 
 		}
 
@@ -317,35 +439,31 @@ public class CasesAnesthetics implements BookExtractor {
 		text = text.replaceAll("Na + ", "Na+");
 		text = text.replaceAll("K + ", "K+");
 
-		if (text.startsWith(" ")) {
+		if (text.startsWith(" "))
+		{
 			text = text.replaceFirst(" ", "");
 		}
-		if (text.startsWith("\n")) {
+		if (text.startsWith("\n"))
+		{
 			text = text.replaceFirst("\n", "");
 		}
-		if (text.endsWith(" ")) {
+		if (text.endsWith(" "))
+		{
 			text = text.substring(0, text.length() - 1);
 		}
 
 		text = LanguageTools.removeHyphenNew(text);
+		
+		// % 10 mg ml × = // In Text Nr 18 ersetzen 
+		text = text.replaceAll(" % 10 mg ml × =", "");
+		text = text.replaceAll("t war froh über das Eingreifen von Schwester Susanne", "t ne");
+		text = text.replaceAll("ger Reinhardt schüttelte den Kopf. »Das glaube ich auch nicht«, meinte er zu Frau Dr. Spiegel. ", "");
+		
 		return text;
 	}
 
-	@Override
-	public String parseBook(Path pdfPath) throws ContextedException {
-		// PDFtoTXTbyTika
-		String plainText = ExtractionUtils.getContentByTika(pdfPath.toString());
-
-		try {
-			Files.write(Paths.get(pdfPath.toString().replaceAll("pdf", "txt")), plainText.getBytes());
-		} catch (IOException e) {
-			throw new ContextedException(e);
-		}
-		return plainText;
-	}
-
-	@Override
-	public boolean validateText(String plainText) {
+	public boolean validateText(String plainText)
+	{
 		return plainText.contains("ISBN 978-3-662-43440-6");
 	}
 

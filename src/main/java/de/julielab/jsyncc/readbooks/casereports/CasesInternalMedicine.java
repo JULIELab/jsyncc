@@ -1,5 +1,6 @@
 package de.julielab.jsyncc.readbooks.casereports;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,31 +14,20 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.exception.ContextedException;
 
-import de.julielab.jsyncc.readbooks.BookReader;
+import de.julielab.jsyncc.readbooks.BookProperties;
 import de.julielab.jsyncc.readbooks.TextDocument;
 import de.julielab.jsyncc.tools.ExtractionUtils;
 import de.julielab.jsyncc.tools.LanguageTools;
 
-public class CasesInternalMedicine {
-
-	private static final int ID = 10;
-	private static final String SOURCE = BookReader.yaml.getSourceById(ID);
-	private static final String SOURCE_SHORT = BookReader.yaml.getSourceShortById(ID);
-
-	public static final String BOOK = "books/10-Fallbuch-Innere-Medizin";
-	public static final String TYPE = "CaseReport";
-	public static final String TOPIC = "Innere Medizin";
-
-	public static final String DOC_PAGE_ONE = "b-0037-142745.pdf";
-	public static final String DOC_CONTENT = "b-0037-142744.pdf";
-
-	public static Map<Integer, String> getDiagnoisInformation() {
-
+public class CasesInternalMedicine
+{
+	public static Map<Integer, String> getDiagnoisInformation(BookProperties bookProperties)
+	{
 		Map<Integer, String> diagnosis = new TreeMap<>();
 
 		String element = "";
 		try {
-			element = ExtractionUtils.getContentByTika(BOOK + "/" + DOC_CONTENT);
+			element = ExtractionUtils.getContentByTika(bookProperties.bookPath + File.separator + "b-0037-142744.pdf");
 		} catch (ContextedException e) {
 			e.printStackTrace();
 		}
@@ -72,12 +62,12 @@ public class CasesInternalMedicine {
 		return diagnosis;
 	}
 
-	public static Map<Integer, ArrayList<String>> getThemesInformation() {
+	public static Map<Integer, ArrayList<String>> getThemesInformation(BookProperties bookProperties) {
 		Map<Integer, ArrayList<String>> themes = new TreeMap<>();
 
 		String element = "";
 		try {
-			element = ExtractionUtils.getContentByTika(BOOK + "/" + DOC_CONTENT);
+			element = ExtractionUtils.getContentByTika(bookProperties.bookPath + "/" + "b-0037-142744.pdf");
 		} catch (ContextedException e) {
 			e.printStackTrace();
 		}
@@ -110,34 +100,36 @@ public class CasesInternalMedicine {
 		return themes;
 	}
 
-	public static List<TextDocument> extractContent() throws IOException, InterruptedException {
-		List<TextDocument> listDocuments = new ArrayList<>();
+	public static List<TextDocument> extractContent(BookProperties bookProperties) throws IOException, InterruptedException
+	{
+		List<TextDocument> textDocuments = new ArrayList<>();
 
-		Map<Integer, String> diagnosis = getDiagnoisInformation();
-		Map<Integer, ArrayList<String>> themes = getThemesInformation();
+		Map<Integer, String> diagnosis = getDiagnoisInformation(bookProperties);
+		Map<Integer, ArrayList<String>> themes = getThemesInformation(bookProperties);
 
-		Stream<Path> list = Files.walk(Paths.get(BOOK)).filter(Files::isRegularFile)
-				.filter(f -> f.toString().endsWith(".pdf")).sorted();
+		Stream<Path> list = Files.walk(Paths.get(bookProperties.bookPath)).filter(Files::isRegularFile).filter(f -> f.toString().endsWith(".pdf")).sorted();
 
 		int index = 0;
 		boolean read = false;
 
-		for (Iterator<Path> iterator = list.iterator(); iterator.hasNext();) {
+		for (Iterator<Path> iterator = list.iterator(); iterator.hasNext();)
+		{
 			String element = iterator.next().toString();
 
-			if ((read) && (index < 150)) {
+			if ((read) && (index < 150))
+			{
 				index++;
-				listDocuments.add(createTextDocument(element, index, diagnosis, themes));
+				textDocuments.add(createTextDocument(element, index, diagnosis, themes, bookProperties));
 			}
 
-			if (element.toString().endsWith(DOC_PAGE_ONE)) {
+			if (element.toString().endsWith("b-0037-142745.pdf")) {
 				index++;
-				listDocuments.add(createTextDocument(element, index, diagnosis, themes));
+				textDocuments.add(createTextDocument(element, index, diagnosis, themes, bookProperties));
 				read = true;
 			}
 		}
 
-		return listDocuments;
+		return textDocuments;
 	}
 
 	public static TextDocument createTextDocument
@@ -145,7 +137,8 @@ public class CasesInternalMedicine {
 			String file,
 			int index,
 			Map<Integer, String> diagnosis,
-			Map<Integer, ArrayList<String>> themes
+			Map<Integer, ArrayList<String>> themes,
+			BookProperties bookProperties
 		) throws IOException, InterruptedException
 	{
 		String element = "";
@@ -225,18 +218,23 @@ public class CasesInternalMedicine {
 			heading = heading.substring(0, heading.length() - 1);
 		}
 
-		TextDocument document = new TextDocument();
-		document.setHeading(heading);
-		document.setText(currentText);
-		document.setType(TYPE);
-		document.setSource(SOURCE);
+		TextDocument textDocument = new TextDocument();
+		textDocument.setHeading(heading);
+		textDocument.setText(currentText);
+		textDocument.setDocumentType(bookProperties.documentType.get(0));
+		textDocument.setSource(
+				bookProperties.getTitle() + " " +
+				bookProperties.getEditorAuthor() + " " +
+				bookProperties.getYear() + " " +
+				bookProperties.getPublisher() + " " +
+				bookProperties.getDoi()
+		);
 
-		document.topic.add(TOPIC);
-		document.topic.add(diagnosis.get(index));
-		document.topic.addAll(themes.get(index));
+		textDocument.setTopic(bookProperties.topics);
+		textDocument.setIdLong(bookProperties.sourceShort + "-" + index);
+		textDocument.setSourcShort(bookProperties.sourceShort);
+		textDocument.setBookId(bookProperties.bookId);
 
-		document.setIdLong(SOURCE_SHORT + "-" + index);
-
-		return document;
+		return textDocument;
 	}
 }

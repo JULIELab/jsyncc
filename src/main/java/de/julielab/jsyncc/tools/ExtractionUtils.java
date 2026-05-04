@@ -19,35 +19,44 @@ import org.apache.tika.sax.BodyContentHandler;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
-public class ExtractionUtils {
+public class ExtractionUtils{
 
-	public static String getContentByTika(String pdfPath) throws ContextedException {
-		try (InputStream is = new BufferedInputStream(new FileInputStream(new File(pdfPath)));) {
+	public static String getContentByTika(String pdfPath) throws ContextedException
+	{
+		try (InputStream is = new BufferedInputStream(new FileInputStream(new File(pdfPath)));)
+		{
 			Parser parser = new AutoDetectParser();
 			ContentHandler handler = new BodyContentHandler(-1);
 			// -1 == no limit
 			Metadata metadata = new Metadata();
 			parser.parse(is, handler, metadata, new ParseContext());
 			return handler.toString();
-		} catch (IOException | SAXException | TikaException e) {
+		}
+		catch (IOException | SAXException | TikaException e) 
+		{
 			throw new ContextedException(e);
 		}
 	}
-
-	public static String getContentByTika(Path pdfPath) throws ContextedException {
-		try (InputStream is = new BufferedInputStream(new FileInputStream(new File(pdfPath.toString())));) {
+	
+	public static String getContentByTika(Path pdfPath) throws ContextedException
+	{
+		try (InputStream is = new BufferedInputStream(new FileInputStream(new File(pdfPath.toString())));)
+		{
 			Parser parser = new AutoDetectParser();
 			ContentHandler handler = new BodyContentHandler(-1);
 			// -1 == no limit
 			Metadata metadata = new Metadata();
 			parser.parse(is, handler, metadata, new ParseContext());
 			return handler.toString();
-		} catch (IOException | SAXException | TikaException e) {
+		}
+		catch (IOException | SAXException | TikaException e) 
+		{
 			throw new ContextedException(e);
 		}
 	}
-
-	public static String getContentByPdftoHTML(Path pdfPath) throws ContextedException {
+	
+	public static String getContentByPdftoHTML(Path pdfPath) throws ContextedException
+	{
 		String plainText = "";
 		List<String> allLines;
 
@@ -73,8 +82,9 @@ public class ExtractionUtils {
 		}
 		return plainText;
 	}
-
-	public static String getContentByPdftoHTML(Path pdfPath, String arg) throws ContextedException {
+	
+	public static String getContentByPdftoHTML(Path pdfPath, String arg) throws ContextedException
+	{
 		String plainText = "";
 		List<String> allLines;
 
@@ -101,7 +111,8 @@ public class ExtractionUtils {
 		return plainText;
 	}
 
-	public static String getContentByPdftotext(Path pdfPath) throws ContextedException {
+	public static String getContentByPdftotext(Path pdfPath) throws ContextedException
+	{
 		String plainText = "";
 		List<String> allLines;
 
@@ -127,8 +138,9 @@ public class ExtractionUtils {
 		}
 		return plainText;
 	}
-
-	public static String getContentByPdftotext(Path pdfPath, String arg) throws ContextedException {
+	
+	public static String getContentByPdftotext(Path pdfPath, String arg) throws ContextedException
+	{
 		String plainText = "";
 		List<String> allLines;
 
@@ -154,50 +166,47 @@ public class ExtractionUtils {
 
 		return plainText;
 	}
-
-	// public static void writeCheckSums()
-	// {
-	// for (int i = 0; i < ListDocuments.size(); i++)
-	// {
-	// System.out.println(ListDocuments.get(i).getText());
-	//
-	// CheckSum checkSum = new CheckSum();
-	// checkSum.checkSumText =
-	// DigestUtils.md5Hex(ListDocuments.get(i).getText());
-	// checkSum.id = Integer.toString(i);
-	// listCheckSum.add(checkSum);
-	// }
-	// }
-
-	// public static void writeXML()
-	// {
-	// try
-	// {
-	// JaxBxmlHandler.marshalCorpus(ListDocuments, new
-	// File("output/xml/corpus.xml"));
-	// }
-	// catch (IOException e)
-	// {
-	// e.printStackTrace();
-	// }
-	// catch (JAXBException e)
-	// {
-	// e.printStackTrace();
-	// }
-	//
-	// try
-	// {
-	// JaxBxmlHandler.marshalCheckSum(listCheckSum, new
-	// File("output/checkSums.xml"));
-	// }
-	// catch (IOException e)
-	// {
-	// e.printStackTrace();
-	// }
-	// catch (JAXBException e)
-	// {
-	// e.printStackTrace();
-	// }
-	// }
+	
+//	public static void writeCheckSums()
+//	{
+//		for (int i = 0; i < ListDocuments.size(); i++)
+//		{
+//			System.out.println(ListDocuments.get(i).getText());
+//			
+//			CheckSum checkSum = new CheckSum();
+//			checkSum.checkSumText = DigestUtils.md5Hex(ListDocuments.get(i).getText());
+//			checkSum.id = Integer.toString(i);
+//			listCheckSum.add(checkSum);
+//		}
+//	}
+	
+//	public static void writeXML()
+//	{
+//		try
+//		{
+//			JaxBxmlHandler.marshalCorpus(ListDocuments, new File("output/xml/corpus.xml"));
+//		}
+//		catch (IOException e)
+//		{
+//			e.printStackTrace();
+//		}
+//		catch (JAXBException e)
+//		{
+//			e.printStackTrace();
+//		}
+//
+//		try
+//		{
+//			JaxBxmlHandler.marshalCheckSum(listCheckSum, new File("output/checkSums.xml"));
+//		}
+//		catch (IOException e)
+//		{
+//			e.printStackTrace();
+//		}
+//		catch (JAXBException e)
+//		{
+//			e.printStackTrace();
+//		}
+//	}
 
 }

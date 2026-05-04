@@ -1,41 +1,19 @@
 package de.julielab.jsyncc.readbooks.casedescriptions;
 
-import de.julielab.jsyncc.readbooks.BookExtractor;
-import de.julielab.jsyncc.readbooks.BookReader;
+import de.julielab.jsyncc.readbooks.BookProperties;
 import de.julielab.jsyncc.readbooks.TextDocument;
 import de.julielab.jsyncc.tools.ExtractionUtils;
 import de.julielab.jsyncc.tools.LanguageTools;
 
 import org.apache.commons.lang3.exception.ContextedException;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CasesCulture implements BookExtractor {
-
-	private final int ID = 8;
-	private final String SOURCE = BookReader.yaml.getSourceById(ID);
-	private final String SOURCE_SHORT = BookReader.yaml.getSourceShortById(ID);
-
-	public static final String BOOK = "books/08-Patienten-aus-fremden-Kulturen-im-Notarzt-und-Rettungsdienst-Fallbeispiele-und-Praxistipps/978-3-642-34869-3.pdf";
-	public static final String TYPE = "CaseDescription";
-	public static final String TOPIC = "Notfallmedizin";
-
-	public static void main(String[] args) throws IOException, InterruptedException, ContextedException {
-		CasesCulture culture = new CasesCulture();
-		String plainText = culture.parseBook(Paths.get(BOOK));
-		List<TextDocument> listDocuments = culture.extractContent(plainText);
-		System.out.println(listDocuments.size());
-	}
-
-	@Override
-	public List<TextDocument> extractContent(String plainText) {
-
-		List<TextDocument> listDocuments = new ArrayList<>();
+public class CasesCulture
+{
+	public static List<TextDocument> extractContent(BookProperties bookProperties) throws ContextedException
+	{
+		List<TextDocument> textDocuments = new ArrayList<>();
 		ArrayList<String> tableOfContents = new ArrayList<>();
 
 		boolean readTableOfContents = false;
@@ -43,6 +21,7 @@ public class CasesCulture implements BookExtractor {
 		String text = "";
 		int index = 1;
 
+		String plainText = ExtractionUtils.getContentByTika(bookProperties.getBookPath());
 		String[] lines = plainText.split("\\n");
 
 		for (int i = 0; i < lines.length; i++) {
@@ -77,19 +56,26 @@ public class CasesCulture implements BookExtractor {
 				if (lines[i].endsWith(".1 Situationsbeschreibung")
 						&& (!(lines[i + 2].endsWith("Fremdkulturelle und religiöse Beobachtungen"))
 								&& !(lines[i + 2].endsWith("Hintergrundinformationen und Handlungsoptionen")))) {
-					TextDocument document = new TextDocument();
+					TextDocument textDocument = new TextDocument();
 
 					if (!(text.equals(""))) {
-						document.setText(cleanText(text));
-						document.setHeading(tableOfContents.get(index));
-						document.setSource(SOURCE);
-						document.topic.add(TOPIC);
-						document.setType(TYPE);
-						document.setIdLong(SOURCE_SHORT + "-" + index);
+						textDocument.setText(cleanText(text));
+						textDocument.setHeading(tableOfContents.get(index));
+						textDocument.setSource(
+							bookProperties.getTitle() + " " +
+							bookProperties.getEditorAuthor() + " " +
+							bookProperties.getYear() + " " +
+							bookProperties.getPublisher() + " " +
+							bookProperties.getDoi()
+						);
+						textDocument.topics.add(bookProperties.topics.get(0));
+						textDocument.setDocumentType(bookProperties.documentType.get(0));
+						textDocument.setIdLong(bookProperties.getSourceShort() + "-" + index);
+						textDocument.setSourcShort(bookProperties.sourceShort);
+						textDocument.setBookId(bookProperties.bookId);
 
 						index++;
-
-						listDocuments.add(document);
+						textDocuments.add(textDocument);
 						text = "";
 					}
 
@@ -97,7 +83,8 @@ public class CasesCulture implements BookExtractor {
 
 				}
 
-				else if (lines[i].startsWith("\u0020?")) {
+				else if (lines[i].startsWith("\u0020?"))
+				{
 					readSituationDescription = false;
 				}
 			}
@@ -128,21 +115,30 @@ public class CasesCulture implements BookExtractor {
 			}
 		}
 
-		TextDocument document = new TextDocument();
+		TextDocument textDocument = new TextDocument();
 
-		document.setText(cleanText(text));
-		document.setHeading(tableOfContents.get(index - 1));
-		document.setSource(SOURCE);
-		document.setType(TYPE);
-		document.topic.add(TOPIC);
+		textDocument.setText(cleanText(text));
+		textDocument.setHeading(tableOfContents.get(index - 1));
+		textDocument.setSource(
+			bookProperties.getTitle() + " " +
+			bookProperties.getEditorAuthor() + " " +
+			bookProperties.getYear() + " " +
+			bookProperties.getPublisher() + " " +
+			bookProperties.getDoi()
+		);
+		textDocument.setDocumentType(bookProperties.documentType.get(0));
+		textDocument.topics.add(bookProperties.topics.get(0));
+		textDocument.setIdLong(bookProperties.getSourceShort() + "-" + index);
 
-		document.setIdLong(SOURCE_SHORT + "-" + index);
+		textDocument.setSourcShort(bookProperties.sourceShort);
+		textDocument.setBookId(bookProperties.bookId);
+
 		index++;
 
-		listDocuments.add(document);
+		textDocuments.add(textDocument);
 		text = "";
 
-		return listDocuments;
+		return textDocuments;
 	}
 
 	public static String cleanText(String element) {
@@ -186,19 +182,21 @@ public class CasesCulture implements BookExtractor {
 		return text;
 	}
 
+	/*
 	@Override
-	public String parseBook(Path pdfPath) throws ContextedException {
-		String plainText = ExtractionUtils.getContentByTika(BOOK);
+	public String parseBook(Path pdfPath) throws ContextedException
+	{
+		String plainText = ExtractionUtils.getContentByTika(pdfPath);
 		try {
-			Files.write(Paths.get(BOOK.replaceAll("pdf", "txt")), plainText.getBytes());
+			Files.write(Paths.get(pdfPath.toString().replaceAll("pdf", "txt")), plainText.getBytes());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return plainText;
-	}
+	}*/
 
-	@Override
-	public boolean validateText(String plainText) {
+	public boolean validateText(String plainText)
+	{
 		return plainText.contains("978-3-642-34869-3");
 	}
 }

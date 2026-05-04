@@ -1,100 +1,77 @@
 package de.julielab.jsyncc.readbooks.casedescriptions.discussion;
 
-import de.julielab.jsyncc.readbooks.BookExtractor;
-import de.julielab.jsyncc.readbooks.BookReader;
+import de.julielab.jsyncc.readbooks.BookProperties;
 import de.julielab.jsyncc.readbooks.TextDocument;
 import de.julielab.jsyncc.tools.LanguageTools;
 
-import org.apache.commons.lang3.exception.ContextedException;
-
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CasesEmergency implements BookExtractor {
+public class CasesEmergency{
 
-	private static final int ID = 5;
-	private static final String SOURCE = BookReader.yaml.getSourceById(ID);
-	private static final String SOURCE_SHORT = BookReader.yaml.getSourceShortById(ID);
-	public static final String BOOK = "books/05-Fallbeispiele-Notfallmedizin/978-3-662-47232-3.pdf";
+	public boolean validateText(String plainText) { return (plainText.contains("978-3-662-47231-6")); }
 
-	public static final String TOPIC = "Notfallmedizin";
+	public static List<TextDocument> extractContent(BookProperties bookProperties)
+	{
+		boolean readElements = false;
+		boolean readTableOfContents = false;
+		int index = 1;
+		String text = "";
+		ArrayList<TextDocument> textDocuments = new ArrayList<>();
+		ArrayList<String> tableOfContents = new ArrayList<>();
 
-	public static final String TYPE_1 = "CaseDescription";
-	public static final String TYPE_2 = "Discussion";
-
-	@Override
-	public String parseBook(Path path) throws ContextedException {
 		String plainText = "";
-		ProcessBuilder pb = new ProcessBuilder("pdftotext", BOOK);
+		ProcessBuilder pb = new ProcessBuilder("pdftotext", bookProperties.bookPath);
 
 		try {
 			Process p;
 			p = pb.start();
 			p.waitFor();
 
-			List<String> lines = Files.readAllLines(Paths.get(path.toString().replaceAll(".pdf", ".txt")));
-			for (int i = 0; i < lines.size(); i++) {
+			List<String> lines = Files.readAllLines(Paths.get(bookProperties.bookPath.toString().replaceAll(".pdf", ".txt")));
+			for (int i = 0; i < lines.size(); i++)
+			{
 				plainText = plainText + "\n" + lines.get(i);
 			}
 
-		} catch (IOException | InterruptedException e) {
-			e.printStackTrace();
-		}
-
-		return plainText;
-	}
-
-	@Override
-	public boolean validateText(String plainText) {
-		return (plainText.contains("978-3-662-47231-6"));
-	}
-
-	@Override
-	public List<TextDocument> extractContent(String plainText) {
-		boolean readElements = false;
-		boolean readTableOfContents = false;
-		int index = 1;
-		String text = "";
-		ArrayList<TextDocument> listDocuments = new ArrayList<>();
-		ArrayList<String> tableOfAuthors = new ArrayList<>();
-		ArrayList<String> tableOfContents = new ArrayList<>();
+		} catch (IOException | InterruptedException e) { e.printStackTrace(); }
 
 		String[] lines = plainText.split("\n");
 
-		for (int i = 0; i < lines.length; i++) {
-			// get Table of Contents
-
-			if (lines[i].matches("\\u000CInhaltsverzeichnis")) {
+		for (int i = 0; i < lines.length; i++)
+		{
+			if (lines[i].matches("\\u000CInhaltsverzeichnis"))
+			{
 				readTableOfContents = true;
 			}
 
-			if ((readTableOfContents) && (lines[i].matches("\\d+\\u2002?\\u2003?.*"))) {
-				String contentEntry = lines[i];
+			if (readTableOfContents)
+			{
+				if (
+						(lines[i].contains("\u0008")) && !(lines[i].contains("Sachverzeichnis"))
+					)
+				{
 
-				contentEntry = contentEntry.replaceAll("\\d+[\\u2002\\u2003]+", "");
-				contentEntry = contentEntry.replaceAll("\\uFFFD", "");
+					String contentEntry = lines[i];
+					contentEntry = contentEntry.replaceAll("\\d+[\\u2002\\u2003]+", "");
+					contentEntry = contentEntry.replaceAll("\\uFFFD", "");
+					contentEntry = contentEntry.replaceAll("\\u2002", " ");
+					contentEntry = contentEntry.replaceAll("\\u2003", " ");
+					contentEntry = contentEntry.replaceAll("\\u0008", " ");
+					contentEntry = contentEntry.replaceAll("\\d+\\s", "");
+					contentEntry = contentEntry.replaceAll("\\s+\\d+", "");
+					tableOfContents.add(contentEntry.trim());
 
-				if (contentEntry.startsWith(" ")) {
-					contentEntry = contentEntry.replaceFirst(" ", "");
+					//System.out.println(contentEntry.trim());
+					//System.out.println("---------------------");
 				}
-
-				contentEntry = contentEntry.replaceAll("\\u2002", " ");
-				contentEntry = contentEntry.replaceAll("\\u2003", " ");
-				contentEntry = contentEntry.replaceAll("\\u0008", " ");
-				contentEntry = contentEntry.replaceAll(" +\\d+", "");
-
-				tableOfContents.add(contentEntry);
-
-				if (tableOfContents.size() == 48) {
-					readTableOfContents = false;
-				}
-
-				tableOfAuthors.add(lines[i + 1]);
 			}
+		}
+
+		for (int i = 0; i < lines.length; i++) {
 
 			// get Content of Single Texts
 			if ((lines[i].matches("Literatur")) || (lines[i].matches("Fazit")) || (lines[i].matches("Letzte Worte"))) {
@@ -107,7 +84,7 @@ public class CasesEmergency implements BookExtractor {
 
 			if (lines[i].startsWith("77 ")) {
 				if (!(text.equals(""))) {
-					listDocuments.addAll(normalizeElement(text, index, tableOfContents));
+					textDocuments.addAll(normalizeElement(text, index, tableOfContents, bookProperties));
 					index = index + 1;
 					text = "";
 				}
@@ -120,8 +97,7 @@ public class CasesEmergency implements BookExtractor {
 			// last element
 			if (lines[i].endsWith("Sachverzeichnis")) {
 				if (!(text.equals(""))) {
-
-					listDocuments.addAll(normalizeElement(text, index, tableOfContents));
+					textDocuments.addAll(normalizeElement(text, index, tableOfContents, bookProperties));
 					index = index + 1;
 					text = "";
 				}
@@ -130,24 +106,25 @@ public class CasesEmergency implements BookExtractor {
 			}
 		}
 
-		return listDocuments;
+		return textDocuments;
 	}
 
-	private static ArrayList<TextDocument> normalizeElement(String text, int index, ArrayList<String> tableOfContents) {
+	private static ArrayList<TextDocument> normalizeElement(String text, int index, ArrayList<String> tableOfContents, BookProperties bookProperties)
+	{
 		text = text.replaceFirst("77 ", "");
 		text = text.replaceAll("\\u0003", "");
 		text = text.replaceAll("\\u00A0", " "); // No-Break Space
 		text = text.replaceAll("\\u2013", "-"); // – / En dash
 
 		String[] lines = text.split("\n");
-		ArrayList<TextDocument> listDocuments = new ArrayList<TextDocument>();
-		;
+		ArrayList<TextDocument> textDocuments = new ArrayList<TextDocument>();;
 
 		text = "";
 		boolean partCopyRight = false;
 		String tempAuthor = "";
 
-		for (int i = 0; i < lines.length; i++) {
+		for (int i = 0; i < lines.length; i++)
+		{
 			if ((!(lines[i].matches("\\u000C\\d+\\u2003[\\p{Alnum}öäüÖÄÜß\\s\\p{Punct}]+")))
 					&& (!(lines[i].matches("\\u000C\\d+"))) && (!(lines[i].matches("\\d+")))
 					&& (!(lines[i].equals("")))) {
@@ -237,13 +214,11 @@ public class CasesEmergency implements BookExtractor {
 
 		text = text.replaceAll("\u2022", "-"); // bullet •
 
-		text = text.replaceAll("\u2009", "\u0020"); // "Thin space" -> to
-													// "normal spache
-		text = text.replaceAll("\u00AD", ""); // soft hyphen
+		text = text.replaceAll("\u2009", "\u0020"); // "Thin space" -> to "normal spache
+		text = text.replaceAll("\u00AD", ""); //soft hyphen
 
 		// remove the internal marking of enumerations
 		text = text.replaceAll("___", "");
-
 		text = text.replaceAll("\u2013", "-"); // En dash −
 		text = text.replaceAll("\u2212", "-"); // Minus −
 
@@ -254,36 +229,135 @@ public class CasesEmergency implements BookExtractor {
 		String caseText = LanguageTools.removeHyphenNew(lines[0]);
 		String discText = LanguageTools.removeHyphenNew(lines[1]);
 
-		TextDocument documentCase = new TextDocument();
-		documentCase.setText(caseText);
-		documentCase.setType(TYPE_1);
-		documentCase.topic.add(TOPIC);
-		documentCase.setHeading(tableOfContents.get(index - 1));
-		documentCase.setSource(SOURCE);
-		documentCase.setIdLong(SOURCE_SHORT + "-" + ((index * 2) - 1));
+		caseText = caseText.replaceAll(tableOfContents.get(index-1), "").replaceAll("  ", " "); // new
+		discText = discText.replaceAll(tableOfContents.get(index-1), "").replaceAll("  ", " "); // new
+
+		caseText = cleanDetails(caseText); // new
+		discText = cleanDetails(discText); // new
+
+		/*
+		System.out.println(index);
+		System.out.println("-------------------");
+		System.out.println(tableOfContents.get(index-1));
+		System.out.println("-------------------");
+		System.out.println(caseText);
+		System.out.println("-------------------");
+		System.out.println(discText);
+		System.out.println("=================================");
+		*/
+
+		TextDocument textDocumentCase = new TextDocument();
+		textDocumentCase.setText(caseText);
+		textDocumentCase.setDocumentType(bookProperties.documentType.get(0));
+		textDocumentCase.topics.add(bookProperties.topics.get(0));
+		textDocumentCase.setHeading(tableOfContents.get(index-1));
+		textDocumentCase.setSource(
+			bookProperties.getTitle() + " " +
+			bookProperties.getEditorAuthor() + " " +
+			bookProperties.getYear() + " " +
+			bookProperties.getPublisher() + " " +
+			bookProperties.getDoi()
+		);
+		textDocumentCase.setIdLong(bookProperties.sourceShort + "-" + ((index*2)-1) );
+		textDocumentCase.setSourcShort(bookProperties.sourceShort);
+		textDocumentCase.setBookId(bookProperties.bookId);
 
 		// in relation of ...
 		ArrayList<String> cRelList = new ArrayList<String>();
-		cRelList.add(SOURCE_SHORT + "-" + (index + 1));
-		documentCase.inRelationOf = cRelList;
+		cRelList.add(bookProperties.sourceShort + "-" + (index+1));
+		textDocumentCase.inRelationOf = cRelList;
 
-		listDocuments.add(documentCase);
+		textDocuments.add(textDocumentCase);
 
-		TextDocument documentDiscuss = new TextDocument();
-		documentDiscuss.setText(discText);
-		documentDiscuss.setType(TYPE_2);
-		documentDiscuss.topic.add(TOPIC);
-		documentDiscuss.setHeading(tableOfContents.get(index - 1));
-		documentDiscuss.source = SOURCE;
-		documentDiscuss.setIdLong(SOURCE_SHORT + "-" + (index * 2));
+		TextDocument textDocumentDiscuss = new TextDocument();
+		textDocumentDiscuss.setText(discText);
+		textDocumentDiscuss.setDocumentType(bookProperties.documentType.get(1));
+		textDocumentDiscuss.topics.add(bookProperties.topics.get(0));
+		textDocumentDiscuss.setHeading(tableOfContents.get(index-1));
+		textDocumentDiscuss.setSource(
+			bookProperties.getTitle() + " " +
+			bookProperties.getEditorAuthor() + " " +
+			bookProperties.getYear() + " " +
+			bookProperties.getPublisher() + " " +
+			bookProperties.getDoi()
+		);
+		textDocumentDiscuss.setIdLong(bookProperties.sourceShort + "-" + (index*2) );
+		textDocumentDiscuss.setSourcShort(bookProperties.sourceShort);
+		textDocumentDiscuss.setBookId(bookProperties.bookId);
 
 		// in relation of ...
 		ArrayList<String> dRelList = new ArrayList<String>();
-		dRelList.add(SOURCE_SHORT + "-" + (index));
-		documentDiscuss.inRelationOf = dRelList;
+		dRelList.add(bookProperties.sourceShort + "-" + (index));
+		textDocumentDiscuss.inRelationOf = dRelList;
 
-		listDocuments.add(documentDiscuss);
+		textDocuments.add(textDocumentDiscuss);
 
-		return listDocuments;
+		return textDocuments;
+	}
+	
+	public static String cleanDetails(String text)
+	{
+		text = text.replaceAll("Nadel-Ent- lastungspunktion", "Nadel-Entlastungspunktion");
+		text = text.replaceAll("7 Das zentrale", "Das zentrale");
+		text = text.replaceAll("jedem 7 Notarztstützpunkt", "jedem Notarztstützpunkt");
+		text = text.replaceAll("Ein hin- ter den ", "Ein hinter den ");
+		text = text.replaceAll("15 Nach initialer ", "Nach initialer ");
+		text = text.replaceAll("findet sich 24-jähriger treibt im Fluss dahingegen", "findet sich dahingegen");
+		text = text.replaceAll("24 Vollbrand in Hochhaus", "");
+
+		text = text.replaceAll("Mythos der mit", "Mythos der Notfallkoniotomie mit"); // ?
+		text = text.replaceAll("offen-chirurgischen ", "offen-chirurgischen Notfallkoniotomie"); //?
+
+		text = text.replaceAll("durchgeführten n, ist", "durchgeführten Notfallkoniotomien, ist");
+		text = text.replaceAll("einer sind dem", "einer Notfallkoniotomie sind dem");
+		text = text.replaceAll("präklinische n", "präklinische Notfallkoniotomien");
+		text = text.replaceAll("die , ", "die Notfallkoniotomie, ");
+
+		text = text.replaceAll("konvulsiven Status epilepticus als", "konvulsiven als");
+		text = text.replaceAll("Behandlung des vorgesehen", "Behandlung des Status epilepticus vorgesehen");
+
+		text = text.replaceAll("konvulsive ist", "konvulsive Status epilepticus ist");
+		text = text.replaceAll("konvulsiven übergehen", "konvulsiven Status epilepticus übergehen");
+		text = text.replaceAll("konvulsiven betrachtet ", "konvulsiven Status epilepticus betrachtet ");
+		text = text.replaceAll("konvulsiven sind", "konvulsiven Status epilepticus sind");
+		text = text.replaceAll("eines konvulsiven und", "eines konvulsiven Status epilepticus und");
+		text = text.replaceAll("konvulsiven .", "konvulsiven Status epilepticus.");
+
+		text = text.replaceAll("des ist", "des Status epilepticus ist");
+		text = text.replaceAll("des nicht-konvulsiven unterscheidet", "des nicht-konvulsiven Status epilepticus unterscheidet");
+		text = text.replaceAll("den nicht-konvulsiven in der", "den nicht-konvulsiven Status epilepticus in der ");
+		text = text.replaceAll("eines nicht-konvulsiven als", "eines nicht-konvulsiven Status epilepticus");
+		text = text.replaceAll("behutsame Kommu45 nikation in der", "behutsame Kommunikation in der");
+		text = text.replaceAll("Re-Evaluierung  der", "Re-Evaluierung der");
+		text = text.replaceAll("eines mit deutlicher", "eines Status epilepticus mit deutlicher");
+
+		text = text.replaceAll("chirurgischen NotfallkoniotomieIntervention", "chirurgischen Intervention");
+		text = text.replaceAll("in der  mongolischen", "in der mongolischen");
+		text = text.replaceAll("einer hängt in erster", "einer Lawinenverschüttung hängt in erster");
+		text = text.replaceAll("epilepticus.tatus", "epilepticus");
+		text = text.replaceAll("\\( Kurier", "\\( Kurier");
+		text = text.replaceAll("\\( Frankfurter", "\\( Frankfurter");
+		text = text.replaceAll("\\( Nordlicht", "\\( Nordlicht");
+		text = text.replaceAll("\\( Süddeutsche", "\\( Süddeutsche");
+		text = text.replaceAll("\\( Tagesspiegel", "\\( Tagesspiegel");
+		text = text.replaceAll("epilepticus\\.ls", "epilepticus als");
+		text = text.replaceAll("Status epilepticus.nfallsformen", "Anfallsformen wurden erstmalig");
+		text = text.replaceAll("konvulsiven Status epilepticus.taten", "konvulsiven Staten");
+		text = text.replaceAll("nicht-konvulsiven Status epilepticus.tatus epilepticus", "nicht-konvulsiven Status epilepticus epilepticus");
+		text = text.replaceAll("epilepticus\\.nterscheidet", "epilepticus unterscheidet");
+		text = text.replaceAll("Status epilepticus\\.nfalles", "Anfalls");
+		text = text.replaceAll("konvulsiven Status epilepticus.n der ", "konvulsiven Status epilepticus.n der ");
+		text = text.replaceAll("\\( Die Presse", "\\( Die Presse");
+
+		text = text.replaceAll("konvulsiven Status epilepticus epilepticus", "konvulsiven Status epilepticus");
+		text = text.replaceAll("Anfallsformen wurden erstmalig wurden erstmalig von ", "Anfallsformen wurden erstmalig von ");
+		text = text.replaceAll("konvulsiven Anfalls", "konvulsiven Anfalles");
+		text = text.replaceAll("Status epilepticus.n der ", "Status epilepticus in der");
+		text = text.replaceAll("nichtkonvulsiven Anfallesformen wurden", "nichtkonvulsiven Anfallsformen wurden");
+		text = text.replaceAll("in dermongolischen", "in der mongolischen");
+
+		text = text.replaceAll("-\n", "");
+		text = text.replaceAll("ACS bei 75-jähriger Patientin", "");
+		return text;
 	}
 }

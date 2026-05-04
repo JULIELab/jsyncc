@@ -16,4 +16,7 @@ jsyncc-annotations.xml
 /output/
 
 output/xml/corpus.xml
-
+annotations/entities_annotations
+annotations/sections_annotations
+/output/xml/
+.idea

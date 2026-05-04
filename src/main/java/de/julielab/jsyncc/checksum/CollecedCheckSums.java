@@ -18,15 +18,18 @@ public class CollecedCheckSums
 
 	public CollecedCheckSums(){}
 
-	public CollecedCheckSums(List<CheckSum> listCheckSums) {
-		this.listCheckSums = listCheckSums;
+	public CollecedCheckSums(List<CheckSum> listCheckSums)
+	{
+		CollecedCheckSums.listCheckSums = listCheckSums;
 	}
 
-	public List<CheckSum> getListCheckSums() {
+	public List<CheckSum> getListCheckSums()
+	{
 		return listCheckSums;
 	}
 	
-	public static void setListDocuments(List<CheckSum> listCheckSums) {
+	public static void setListDocuments(List<CheckSum> listCheckSums)
+	{
 		CollecedCheckSums.listCheckSums = listCheckSums;
 	}
 }

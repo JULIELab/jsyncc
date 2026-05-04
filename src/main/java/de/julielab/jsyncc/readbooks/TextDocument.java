@@ -13,82 +13,94 @@ public class TextDocument
 {
 	public String id = "";
 	public String idLong = "";
-	
+	public String bookId = "";
 	public String text = "";
-	public String textSection = "";
-	
-	public String type = "";
+
+	public String textDocumentType = "";
 	public String heading = "";
-	public List<String> topic = new ArrayList<String>();
+	public List<String> topics = new ArrayList<String>();
 	public String source = "";
+	public String sourceShort = "";
 	public ArrayList<String> inRelationOf = new ArrayList<String>();
 
-	public String getId() {
+	public String getId()
+	{
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(String id)
+	{
 		this.id = id;
 	}
 
-	public String getIdLong() {
+	public String getIdLong()
+	{
 		return idLong;
 	}
-	public void setIdLong(String idLong) {
+	public void setIdLong(String idLong)
+	{
 		this.idLong = idLong;
 	}
 
-	public String getText() {
+	public String getBookId()
+	{
+		return bookId;
+	}
+	public void setBookId(String idLong)
+	{
+		this.bookId = idLong;
+	}
+
+	public String getText()
+	{
 		return text;
 	}
-	public void setText(String text) {
+	public void setText(String text)
+	{
 		this.text = text;
 	}
 
-	public String getTextSection() {
-		return textSection;
+	public String getDocumentType()
+	{
+		return textDocumentType;
 	}
-	public void setTextSection(String textSection) {
-		this.textSection = textSection;
-	}
-
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
+	public void setDocumentType(String type)
+	{
+		this.textDocumentType = type;
 	}
 
-	public String getHeading() {
+	public String getHeading()
+	{
 		return heading;
 	}
-	public void setHeading(String heading) {
+	public void setHeading(String heading)
+	{
 		this.heading = heading;
 	}
 
-	public List<String> getTopic() {
-		return topic;
+	public List<String> getTopic()
+	{
+		return topics;
 	}
-	public void setTopic(List<String> topic) {
-		this.topic = topic;
+	public void setTopic(List<String> topics)
+	{
+		this.topics = topics;
 	}
 
-	public String getSource() {
+	public String getSource()
+	{
 		return source;
 	}
-	public void setSource(String source) {
+	public void setSource(String source)
+	{
 		this.source = source;
 	}
 
-	public ArrayList<String> getInRelationOf() {
-		return inRelationOf;
+	public String getSourcShort()
+	{
+		return sourceShort;
 	}
-	public void setInRelationOf(ArrayList<String> inRelationOf) {
-		this.inRelationOf = inRelationOf;
+	public void setSourcShort(String sourceShort)
+	{
+		this.sourceShort = sourceShort;
 	}
-
-//	@Override
-//	public String toString() {
-//		return "TextEntry [id=" + id + ", text=" + text + ", author=" + author + ", type=" + type + ", heading="
-//				+ heading + ", topic=" + topic + ", source=" + source + "]";
-//	}
 }
